@@ -9,8 +9,8 @@ const noise = useNoiseStore();
 </script>
 
 <template>
-  <!-- Analysis tools float over the 3D view, centred between the docks. One runs at a time. -->
-  <div class="tools" :class="{ active: flood.phase !== 'idle' || noise.phase !== 'idle' }">
+  <!-- Analysis tools float over the 3D view, top left (the measuring tools take the top right). -->
+  <div class="tools">
     <div v-if="flood.phase === 'idle' && noise.phase === 'idle'" class="buttons" role="toolbar" aria-label="Analysis tools">
       <button type="button" @click="flood.start()">Flood check</button>
       <button type="button" @click="noise.start()">Noise check</button>
@@ -26,17 +26,10 @@ const noise = useNoiseStore();
 .tools {
   position: absolute;
   top: 10px;
-  left: calc((var(--dock-left, 0px) + 100% - var(--dock-right, 0px)) / 2);
-  transform: translateX(-50%);
+  left: calc(var(--dock-left, 0px) + 44px);
   z-index: 5;
   max-height: calc(100% - 20px);
   display: flex;
-}
-
-/* A running tool's panel goes to the left edge, so the middle of the view stays visible. */
-.tools.active {
-  left: calc(var(--dock-left, 0px) + 44px);
-  transform: none;
 }
 
 .buttons {
