@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm --prefix web run dev"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.34.0"
   }

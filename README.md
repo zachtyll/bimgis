@@ -42,3 +42,13 @@ Object-storage credentials (for the tile pipeline) go in a gitignored `.env`; se
 - Luleå kommun's own map and 3D services state no licence. They are only read live in the browser, never stored or redistributed. Their open-data portal (CC BY 4.0) is used for plans.
 
 See [docs/design/03-3d-data-and-ifc.md](docs/design/03-3d-data-and-ifc.md) for every source.
+
+## Licence
+
+The code is under the [MIT License](LICENSE). Data and third-party material in the repository
+keep their own licences:
+- `web/public/data/`: OpenStreetMap (ODbL), GlobalBuildingAtlas (CC BY-NC 4.0), Boverket;
+- `docs/inspo/`: Lantmäteriet's specifications and schemas, and the thesis;
+- generated API clients from their OpenAPI specifications.
+
+See [docs/design/03-3d-data-and-ifc.md](docs/design/03-3d-data-and-ifc.md) for the data sources.
