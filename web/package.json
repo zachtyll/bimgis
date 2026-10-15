@@ -1,0 +1,37 @@
+{
+  "name": "bimgis-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@giro3d/giro3d": "^2.0.2",
+    "ajv": "8.20.0",
+    "ajv-draft-04": "1.0.0",
+    "ajv-formats": "3.0.1",
+    "oidc-client-ts": "3.5.0",
+    "ol": "10.8.0",
+    "pinia": "^4.0.3",
+    "polygon-clipping": "0.15.7",
+    "proj4": "2.22.0",
+    "three": "0.180.0",
+    "vue": "^3.5.43",
+    "vue-router": "^5.4.0",
+    "web-ifc": "0.0.44"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/three": "0.180.0",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.16",
+    "vitest": "5.0.4",
+    "vue-tsc": "^3.3.13"
+  }
+}

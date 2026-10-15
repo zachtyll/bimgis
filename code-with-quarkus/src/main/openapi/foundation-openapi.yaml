@@ -1,0 +1,203 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: Foundation API
+  description: >-
+    The Foundation API includes a small number of services and a few
+    conventions that are common to all OpenCDE APIs.
+paths:
+  "/foundation/1.0/current-user":
+    get:
+      operationId: getCurrentUser
+      summary: Get the current user information
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/UserResponse"
+        '403':
+          description: Forbidden
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+  "/foundation/1.0/auth":
+    get:
+      operationId: getAuthenticationInfo
+      summary: An unauthenticated OAUTH discovery endpoint. 
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/AuthenticationInfoResponse"
+          links:
+            DynamicClientRegistrationURL:
+              # operationId: registerClient
+              operationRef: '#/paths/~foundation~1{registerClient/post'
+              parameters:
+                registerClientPath: '$response.body#/oauth2_dynamic_client_reg_url'
+        '403':
+          description: Forbidden
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+  "/{registerClientPath}":
+    post:
+      operationId: registerClient
+      summary: Dynamic OAUTH2 Client Registration Request
+      description: >
+        An optional, authenticated endpoint for dynamic OAUTH2 client authentication. If the server supports this API then the URL will be provided in the response to '/foundation/1.0/auth' request
+      parameters:
+        - in: path
+          name: registerClientPath
+          description: 'as provided in get-authentication-info'
+          required: true
+          schema:
+            type: string
+            format: uri
+      requestBody:
+        content: 
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/DynamicClientRegistrationRequest'
+      responses:
+        '200':
+          description: The client was successfully registered
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/DynamicClientRegistrationResponse"
+  "/foundation/versions":
+    get:
+      operationId: getVersions
+      summary: An unauthenticated API discovery endpoint
+      description: >
+           Returns a list of all supported APIs and their versions on this server.
+      responses:
+        '200':
+          description: OK
+          content:
+            "application/json":
+              schema:
+                "$ref": "#/components/schemas/VersionsResponse"
+        '403':
+          description: Forbidden
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [ "message" ]
+      properties:
+        message:
+          type: string
+          description: error message
+    UserResponse:
+      type: object
+      required: ["id"]
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the user on the server
+          example: Architect@example.com
+        name:
+          type: string
+          description: The user's full name
+          example: "John Doe"
+    AuthenticationInfoResponse:
+      type: object
+      required: [ 'supported_oauth2_flows' ]
+      properties:
+        oauth2_auth_url:
+          type: string
+          description: 'URL to authorization page (used for Authorization Code Grant and Implicit Grant OAuth2 flows)'
+          example: "https://example.com/foundation/oauth2/auth"
+        oauth2_token_url:
+          type: string
+          description: URL for token requests  
+          example: https://example.com/foundation/oauth2/token
+          format: uri
+        oauth2_dynamic_client_reg_url:
+          type: string
+          description: URL for automated client registration  
+          example: https://example.com/foundation/oauth2/reg
+          format: uri
+        http_basic_supported:
+          type: boolean
+          description: Indicates if Http Basic Authentication is supported  
+          example: false
+        supported_oauth2_flows:
+          type: array
+          description: Indicates supported OAuth2 flows
+          items:
+            type: string
+            enum: ["authorization_code_grant", "implicit_grant", "resource_owner_password_credentials_grant"]
+    DynamicClientRegistrationRequest:
+      type: object
+      required: ["client_name", "client_description", "client_url", "redirect_url"]
+      properties:
+        client_name:
+          type: string
+          example: "Some Application"
+        client_description:
+          type: string
+          example: "Some CAD desktop application"
+        client_url:
+          type: string
+          example: "http://example.com"
+          format: uri
+        redirect_url:
+          type: string
+          example: "http://localhost:8080"
+          format: uri
+    DynamicClientRegistrationResponse:
+      type: object
+      required: ["client_id", "client_secret"]
+      properties:
+        client_id:
+          type: string
+          example: "cGxlYXN1cmUu"
+        client_secret:
+          type: string
+          example: "ZWFz...  ...dXJlLg=="
+    Version:
+      type: object
+      required: ['api_id', 'version_id']
+      properties:
+        version_id:
+          type: string
+          description: The version number
+          example: '3.0'
+        api_id:
+          type: string
+          description: The API name
+          enum: [bcf, foundation]
+          example: bcf
+        detailed_version:
+          type: string
+          description: The URL of the API specification on Github
+          example: 'https://github.com/buildingSMART/BCF-API/tree/release_3_0'
+        api_base_url:
+          type: string
+          description: An optional, fully qualified URL, to allow servers to relocate the API  
+          example: 'https://server.base.url/somepath/bcf/3.0'
+          format: uri
+    VersionsResponse:
+      type: object
+      properties:
+        versions:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Version"
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/buildingSMART/Foundation/1.0

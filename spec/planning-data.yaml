@@ -1,0 +1,836 @@
+# bimgis planning data specification
+#
+# The data products recorded while a detaljplan is developed, from planbesked to genomförande,
+# and how users enter them through the UI. See spec/README.md for the conventions.
+#
+# Field keys:
+#   type      string | text | integer | decimal | boolean | date | datetime | uuid | url | file
+#             | geometry:<Point|Polygon|MultiPolygon|Any> | enum:<Name> | ref:<Entity> | object:<Name>
+#             | list<...>   (any of the above)
+#   required  true, or a stage from enum PlanStatus/StageKind: the field must be set by then
+#   lm        path in Lantmäteriet "Detaljplan 4.1" (detaljplan-4.1.json); `ext` = our extension
+#   pbl       legal basis (Plan- och bygglagen 2010:900 unless stated)
+#   ui        { by: official|citizen|system, input: <widget>, when: <stage> }
+#   facts     things that are easy to get wrong
+#
+# Governance (ownership, retention, access control) is deliberately out of scope for now.
+
+spec:
+  name: bimgis-planning-data
+  version: 0.1.0
+  status: draft
+  date: 2026-10-13
+  aligns_with:
+    - name: Lantmäteriet Detaljplan 4.1 (national information specification)
+      schema: https://namespace.lantmateriet.se/distribution/geodatakatalog/detaljplan/v4/detaljplan-4.1.json
+      media_type: application/vnd.lm.detaljplan.v4+json
+      local_copy: docs/inspo/lantmateriet/schema2.json
+      page: https://www.lantmateriet.se/sv/nationella-geodataplattformen/datamangder/detaljplan/
+    - name: Lantmäteriet, Vägledning till nationell informationsspecifikation Detaljplan
+      page: https://www.lantmateriet.se/globalassets/temawebbar/smartare-samhallsbyggnadsprocess/nationella-specifikationer/vagledning-till-nationell-informationsspecifikation-detaljplan.pdf
+    - name: Lantmäteriet Detaljplan Referens 2.2 (search results)
+      schema: https://namespace.lantmateriet.se/distribution/geodatakatalog/sokning/v1/detaljplan/v2/detaljplan-ref-2.2.json
+      local_copy: docs/inspo/lantmateriet/schema1.json
+    - name: Lantmäteriet Uppdateringstjänst, geodatakatalog 1.2 (producer API)
+      spec: https://namespace.lantmateriet.se/distribution/geodatakatalog/uppdatering/v1/uppdatering-api-1.2.yaml
+      local_copy: docs/inspo/lantmateriet/api-1.2.yaml
+    - name: Boverket, Detaljplaneprocessen (PBL 5 kap.)
+      page: https://www.boverket.se/sv/PBL-kunskapsbanken/detaljplan/detaljplaneprocessen/
+  design_doc: docs/design/05-planning-evidence.md
+
+# --------------------------------------------------------------------------------------------
+# Rules every entity follows
+# --------------------------------------------------------------------------------------------
+conventions:
+  identity: >
+    Every entity has `id` (uuid, never reused). Plans are also identified by `caseNumber`
+    (diarienummer), the ID humans and other systems use. Maps to LM `objektidentitet`.
+  versioning: >
+    Append-only. An edit creates a new version (`version` + 1, `validFrom` = now) and closes the
+    previous one (`validTo`). Nothing is overwritten or deleted, only superseded. Mirrors LM
+    `utbytesobjekt` (objektversion, versionGiltigFran, versionGiltigTill) and doc 01 ("append-only").
+  provenance: >
+    Every version records `createdBy` (OIDC subject) and `createdAt`. Values entered by an official on
+    behalf of someone else (a consultant, a citizen on paper) also record `enteredOnBehalfOf`.
+  crs: >
+    Geometry in EPSG:3006 (SWEREF 99 TM). Heights in RH 2000 (EPSG:5613), in metres. Z is
+    the height above the RH 2000 zero; depth below ground is a separate field, not a negative Z.
+  stage_snapshot: >
+    Anything that is valid for a planning stage (documents, investigations, findings, provisions)
+    records `stage`. "Which version did the samråd show?" must be answerable.
+
+common_fields:
+  id:          { type: uuid, required: true, lm: utbytesobjekt.objektidentitet, ui: { by: system } }
+  version:     { type: integer, required: true, lm: utbytesobjekt.objektversion, ui: { by: system } }
+  validFrom:   { type: datetime, required: true, lm: utbytesobjekt.versionGiltigFran, ui: { by: system } }
+  validTo:     { type: datetime, lm: utbytesobjekt.versionGiltigTill, ui: { by: system } }
+  createdBy:   { type: string, required: true, lm: ext, ui: { by: system }, facts: [OIDC subject, never shown publicly] }
+  enteredOnBehalfOf: { type: string, lm: ext, ui: { by: official, input: text } }
+
+# --------------------------------------------------------------------------------------------
+# Export to the national geodata platform (Lantmäteriet NGP)
+# --------------------------------------------------------------------------------------------
+export:
+  target: Lantmäteriet Uppdateringstjänst 1.2 (docs/inspo/lantmateriet/api-1.2.yaml)
+  domain_object: >
+    One Detaljplan 4.1 FeatureCollection per plan (media type application/vnd.lm.detaljplan.v4+json):
+    the `detaljplan` feature plus its `planbestammelse` features, built from Plan, Decision,
+    Document (plankarta, planbeskrivning, protokoll), Investigation (as planeringsunderlag) and Provision.
+  identity: >
+    LM `objektidentitet` = our Plan.id / Provision.id. It must stay the same across versions, which our
+    append-only versioning guarantees. LM `objektversion` = our version.
+  flow:
+    - "POST /mottagning with leveransinfo { informationstyp: detaljplan, provider: Plan.municipality }"
+    - "POST /mottagning/{id}/forandringar: one förändring per plan, typ leverans (or radering), medHistorik: true"
+    - "POST .../{objektidentitet}/leverans: upload the FeatureCollection"
+    - "POST .../{objektidentitet}/historik: JSON array of earlier versions (see history)"
+    - "Poll GET /mottagning/{id} until validerad, then publicerad; on valideringsfel, fetch the report (GET .../leverans) and re-upload. No new mottagning is needed"
+  statuses: [registrerad, mottagen, validerad, valideringsfel, publicerad, fel]
+  history: >
+    LM asks for only the versions that are interesting from a planning perspective, not every
+    edit. Our choice: the snapshot at the end of each StageEvent (samråd, granskning, antagande),
+    i.e. what the public actually saw.
+  when: >
+    LM says the municipality decides when a plan is published, and that plans begun before 2022-01-01 needn't be digital.
+    Proposed: at antagande, and again at laga kraft.
+  facts:
+    - Export-only LM fields are set at export, not stored, e.g. feature:typ, or derived (status from StageEvent).
+    - "Validation rules (vägledning ch. 7) that STOP a delivery: DP-0002 coverage, DP-0003 outside plan, DP-0004/0018 multi-geometries, DP-0009 decimal without kind/unit, DP-0022 wording vs catalogue, DP-Krav-0018 self-intersection, BAS-005 history in the delivery, BAS-006 empty text, plus mandatory fields at laga kraft (DP-0005, 0012, 0014, 0017). WARNINGS: DP-Krav-0011 provisions < 0.5 m apart, DP-Krav-0013 overlaps < 5 m²"
+    - "LM kvalitetsbeskrivning (korrigeradeGranser, kontrolleratPlaneringsunderlag) and anvandbarhet are not modelled yet. Add them when the export is built"
+    - "Search results (Referens 2.2) expose a provision's anvandningsform, kategori and underkategori. They come from Boverket's catalogue via Provision.catalogueRef"
+
+# --------------------------------------------------------------------------------------------
+# The process: which data products each stage produces
+# --------------------------------------------------------------------------------------------
+stages:
+  planbesked:
+    description: Applicant asks whether the municipality will start planning.
+    pbl: 5 kap. 2–5 b §§
+    lm_status: null
+    produces:
+      - { entity: Plan, note: "Created as a candidate: purpose, area and applicant" }
+      - { entity: Decision, kind: planbesked }
+    facts:
+      - The municipality must answer within 4 months unless agreed otherwise (5:4).
+      - On request, the planbesked states which planeringsunderlag will probably be needed (5:5).
+        This is the first list of investigations, so record it as `Investigation` with status `needed`.
+  uppdrag:
+    description: Political decision to start (planuppdrag). Luleå uses samhällsbyggnadsutskottet / KSAU.
+    lm_status: påbörjad
+    produces:
+      - { entity: Decision, kind: planuppdrag }
+      - { entity: Plan, note: "Purpose, area, procedure, ÖP compliance" }
+  forstudie:
+    description: Early work before samråd. Luleå pages say "tidigt skede". Often nothing is published.
+    lm_status: påbörjad
+    produces:
+      - { entity: Investigation, note: "Status needed/ongoing; known conditions from national data" }
+      - { entity: Observation, note: "Citizen local knowledge, existing national/municipal data" }
+      - { entity: Contribution, kind: dialogue }
+    facts:
+      - Not a legal stage, but where participation helps most (thesis, docs/design/00 §2).
+  program:
+    description: Optional planprogram setting out goals and starting points.
+    pbl: 5 kap. 10 §
+    lm_status: påbörjad
+    produces:
+      - { entity: Document, documentType: planprogram }
+  samrad:
+    description: Consultation on the proposal with länsstyrelsen, lantmäterimyndigheten, municipalities, sakägare and others.
+    pbl: 5 kap. 11–17 §§
+    lm_status: samråd
+    produces:
+      - { entity: Document, documentType: [plankarta, planbeskrivning, grundkarta, fastighetsforteckning, undersokning_miljopaverkan] }
+      - { entity: Investigation, note: "Those of importance must be presented (5:13)" }
+      - { entity: Provision, note: "Draft provisions with motives" }
+      - { entity: Contribution, kind: [comment, formal_statement, observation] }
+      - { entity: Document, documentType: samradsredogorelse, note: "Required for utökat förfarande (5:17)" }
+    facts:
+      - "Utökat förfarande: kungörelse and a samrådstid of at least 3 weeks (5:11 c)."
+      - "Standard förfarande: no legal minimum for the samrådstid. Luleå says 2–3 months for ÖP, not DP."
+      - The investigation into betydande miljöpåverkan (EIA screening) happens within samråd (5:11 a).
+      - Documents except the fastighetsförteckning must be on the municipality's website during samråd (5:13).
+  granskning:
+    description: Public review of the revised proposal after an underrättelse.
+    pbl: 5 kap. 18–25 §§
+    lm_status: granskning
+    produces:
+      - { entity: Document, documentType: [plankarta, planbeskrivning, samradsredogorelse] }
+      - { entity: Contribution, kind: [formal_statement, comment] }
+      - { entity: Document, documentType: granskningsutlatande, note: "Always required after granskning (5:23)" }
+    facts:
+      - "Granskningstid at least 2 weeks; at least 3 weeks for utökat (7 § 1–2); at least 30 days if
+        betydande miljöpåverkan (7 § 3). May be shortened only if everyone concerned agrees (5:18)."
+      - Only written comments submitted by the end of granskning give the right to appeal. Record the
+        submission date precisely.
+      - Länsstyrelsen states its opinion on national interests, MKN, strandskydd and safety (5:22).
+      - A material change after granskning means a new granskning (5:25). Model it as a new StageEvent.
+  antagande:
+    description: Adoption by kommunfullmäktige, or by KS/byggnadsnämnd by delegation.
+    pbl: 5 kap. 27–31 §§
+    lm_status: antagen
+    produces:
+      - { entity: Decision, kind: antagande }
+      - { entity: Document, documentType: [plankarta, planbeskrivning, granskningsutlatande, protokollsutdrag] }
+    facts:
+      - Plan, planbeskrivning, samrådsredogörelse, granskningsutlåtande and the protokollsutdrag must
+        be on the website for at least 3 weeks from the day the protocol's justering is announced (5:29).
+  overklagad:
+    description: The adoption decision is appealed and awaits a court ruling.
+    pbl: 13 kap.
+    lm_status: överklagad
+    produces:
+      - { entity: Decision, kind: domstolsbeslut }
+  laga_kraft:
+    description: The plan is legally binding.
+    pbl: 5 kap. 32 §
+    lm_status: laga kraft
+    produces:
+      - { entity: Plan, note: "datumLagakraft, genomförandetid start" }
+    facts:
+      - Within 2 weeks, send the plan, planbeskrivning and fastighetsförteckning to länsstyrelsen and lantmäterimyndigheten (5:32).
+      - The genomförandetid (5–15 years) usually starts on the laga kraft date.
+  genomforande:
+    description: Implementation. Obligations from findings are fulfilled (or not).
+    lm_status: laga kraft
+    produces:
+      - { entity: Obligation, note: "Status updates: geotechnical survey done, radon measured…" }
+  vilande:
+    description: Paused (Luleå's "vilande", e.g. Hägern 14). No LM equivalent.
+    lm_status: påbörjad
+  avbruten:
+    description: Planning stopped without adoption.
+    lm_status: avslutad
+
+# --------------------------------------------------------------------------------------------
+# Enumerations
+# --------------------------------------------------------------------------------------------
+enums:
+  PlanStatus:
+    lm: planstatus
+    values:
+      - { value: påbörjad }
+      - { value: samråd }
+      - { value: granskning }
+      - { value: antagen }
+      - { value: överklagad }
+      - { value: tillsyn, note: "Länsstyrelsen reviewing under 11 kap. 10 §" }
+      - { value: laga kraft }
+      - { value: upphävd }
+      - { value: avslutad }
+
+  StageKind:
+    lm: ext
+    note: Finer than PlanStatus; each maps to one PlanStatus via stages.<kind>.lm_status.
+    values: [planbesked, uppdrag, forstudie, program, samrad, granskning, antagande, overklagad, laga_kraft, genomforande, vilande, avbruten]
+
+  Procedure:
+    lm: ext
+    pbl: 5 kap. 6–7 a §§
+    values:
+      - { value: standard }
+      - { value: utokat, note: "Not compatible with ÖP, of significant public interest, or betydande miljöpåverkan (5:7)" }
+      - { value: samordnat, note: "Coordinated with a permit under MB 9:6, vägplan or järnvägsplan (5:7 a)" }
+
+  PlanType:
+    lm: plantyp
+    values: [detaljplan, stadsplan, byggnadsplan, avstyckningsplan]
+    facts: ["Older stadsplaner/byggnadsplaner still apply as detaljplaner (Luleå: ~300 of ~800 plans)"]
+
+  DecisionKind:
+    lm: beslutstyp (only the adoption kinds); others are ext
+    values:
+      - { value: planbesked, lm: null }
+      - { value: planuppdrag, lm: null }
+      - { value: beslut_samrad, lm: null }
+      - { value: beslut_granskning, lm: null }
+      - { value: antagande_ny, lm: antagande av ny detaljplan }
+      - { value: antagande_andring, lm: antagande om ändring }
+      - { value: antagande_upphavande, lm: antagande om upphävande }
+      - { value: avslut, lm: beslut om avslut }
+      - { value: vilandeforklaring, lm: null }
+      - { value: domstolsbeslut, lm: null, note: "LM stores the case numbers in berordDomsMalnummer" }
+
+  Body:
+    lm: kommuninstans (municipal bodies only); others are ext
+    values:
+      - { value: kommunfullmaktige, lm: kommunfullmäktige }
+      - { value: kommunstyrelse, lm: kommunstyrelse }
+      - { value: byggnadsnamnd, lm: byggnadsnämnd enligt PBL }
+      - { value: utskott, lm: null, note: "e.g. Luleå samhällsbyggnadsutskottet" }
+      - { value: tjansteperson, lm: null, note: "Delegated decision" }
+      - { value: domstol, lm: null }
+
+  DocumentType:
+    lm: dokumentreferens + innehall (plankarta | beslutsprotokoll | övrigt)
+    values:
+      - { value: plankarta, lm: plankarta, facts: [Legally binding together with provisions] }
+      - { value: planbeskrivning, lm: planbeskrivning, facts: [No legal effect of its own; explains and motivates] }
+      - { value: samradsredogorelse }
+      - { value: granskningsutlatande }
+      - { value: grundkarta, lm: beslutsinformation.grundkarta }
+      - { value: fastighetsforteckning, facts: [Contains personal data (owners); do not publish openly] }
+      - { value: protokollsutdrag, lm: beslutsprotokoll }
+      - { value: kungorelse_underrattelse }
+      - { value: planprogram }
+      - { value: undersokning_miljopaverkan, note: "Undersökning av betydande miljöpåverkan (MB 6:6)" }
+      - { value: miljokonsekvensbeskrivning }
+      - { value: utredning, note: "The report document of an Investigation" }
+      - { value: kvalitetsprogram }
+      - { value: ovrigt, lm: övrigt }
+
+  InvestigationType:
+    lm: underlagstyp
+    note: LM values first; our additions are exported as `annat` with the name in `underlag.namn`.
+    values:
+      - { value: barnkonsekvensanalys, lm: barnkonsekvensanalys }
+      - { value: bullerutredning, lm: bullerutredning, norms: [SFS-2015-216] }
+      - { value: dagsljus_och_skugga, lm: dagsljus och skugga }
+      - { value: dagvattenutredning, lm: dagvattenutredning }
+      - { value: forprojektering, lm: förprojektering }
+      - { value: geoteknisk_utredning, lm: geoteknisk utredning }
+      - { value: handelsutredning, lm: handelsutredning }
+      - { value: kulturmiljoutredning, lm: kulturmiljöutredning }
+      - { value: markmiljoutredning, lm: markmiljöutredning, norms: [NV-KM, NV-MKM], note: "Includes miljöteknisk undersökning" }
+      - { value: miljokonsekvensbeskrivning, lm: miljökonsekvensbeskrivning }
+      - { value: naturinventering, lm: naturinventering }
+      - { value: riskutredning, lm: riskutredning, note: "Includes fördjupad riskanalys (hazmat routes etc.)" }
+      - { value: trafikutredning, lm: trafikutredning }
+      - { value: undersokning_6kap6, lm: "undersökning enligt 6 kap. 6 § plan- och bygglagen (2010:900)" }
+      - { value: sarskilt_beslut_miljopaverkan, lm: särskilt beslut om betydande miljöpåverkan }
+      - { value: skyfallsutredning, lm: annat, facts: [Common in Luleå (Mjölkudden 3:13); not in LM 4.1] }
+      - { value: radonundersokning, lm: annat }
+      - { value: parkeringsutredning, lm: annat }
+      - { value: gestaltning_kvalitetsprogram, lm: annat }
+      - { value: lokal_kunskap, lm: annat, note: "Synthesis of citizen observations (thesis KNO-2/KNO-3)" }
+      - { value: annat, lm: annat }
+
+  PlanningMaterialArea:
+    lm: huvudomrade
+    values: [kommunala, utredningar, regionala, annat]
+
+  InvestigationStatus:
+    lm: ext
+    values:
+      - { value: needed, note: "Identified in planbesked/förstudie, not ordered" }
+      - { value: ordered }
+      - { value: ongoing }
+      - { value: delivered }
+      - { value: superseded }
+
+  ObservationKind:
+    lm: ext
+    values:
+      - { value: measurement, note: "e.g. noise measured on site, groundwater level" }
+      - { value: sample, note: "e.g. soil sample analysed in a lab" }
+      - { value: calculation, note: "e.g. noise or flow model output at a point/façade" }
+      - { value: inventory, note: "e.g. a tree, a heritage building" }
+      - { value: national_data, note: "e.g. SGU radon class, SGI landslide zone, EBH site" }
+      - { value: local_knowledge, note: "Citizen: what happens here, when, how often" }
+
+  Unit:
+    lm: enhet (first 8 values); others are ext
+    values: [meter, kvadratmeter, kubikmeter, procent, grader, antal, år, dB(A), mg/kg, µg/l, mm, l/s, m³/s, Bq/m³, VSC-procent]
+
+  ValueKind:
+    lm: vardetyp
+    values: [min, max, exakt]
+
+  Assessment:
+    lm: ext
+    values:
+      - { value: within, note: "Meets the norm" }
+      - { value: exceeds }
+      - { value: uncertain, note: "Not enough data. Usually becomes an Obligation" }
+      - { value: not_applicable }
+
+  ConsequenceKind:
+    lm: ext
+    values:
+      - { value: provision, note: "Binding planbestämmelse (motive required)" }
+      - { value: recommendation, note: "Non-binding advice in the planbeskrivning" }
+      - { value: obligation, note: "Must be done at a later stage" }
+      - { value: none, note: "Assessed and found acceptable" }
+
+  ProvisionKind:
+    lm: planbestammelse feature:typ
+    values: [användningsbestämmelse, egenskapsbestämmelse, administrativ bestämmelse]
+
+  VerticalBound:
+    lm: avgransning
+    values: [uppåt, nedåt]
+
+  ObligationDue:
+    lm: ext
+    values: [before_design, before_building_permit, before_construction, during_construction, before_occupancy, ongoing]
+
+  ObligationStatus:
+    lm: ext
+    values: [open, in_progress, fulfilled, waived]
+
+  ContributionKind:
+    lm: ext
+    values:
+      - { value: comment, note: "Public comment (exists today: /api/comments)" }
+      - { value: observation, note: "A fact about the place; also creates an Observation (local_knowledge)" }
+      - { value: formal_statement, note: "Written synpunkt during samråd/granskning; may give appeal rights (granskning)" }
+      - { value: dialogue, note: "Early-stage dialogue input (förstudie)" }
+
+  ResponseOutcome:
+    lm: ext
+    values: [accommodated, partly_accommodated, not_accommodated, noted, out_of_scope]
+
+  OrganisationRole:
+    lm: ext
+    values: [kommun, lansstyrelse, lantmaterimyndighet, konsult, exploator, byggherre, ledningsagare, remissinstans, domstol]
+
+# --------------------------------------------------------------------------------------------
+# Entities
+# --------------------------------------------------------------------------------------------
+entities:
+
+  Plan:
+    description: A detaljplan (or an ändring/upphävande) from planbesked onwards.
+    lm: detaljplan
+    fields:
+      caseNumber:
+        type: string
+        required: uppdrag
+        lm: beslutsinformation[].diarienummerKommun
+        ui: { by: official, input: text, when: uppdrag }
+        facts: ["Stable human ID, e.g. KLF2023/1459. Luleå writes it in several forms (KLF2023-1459, KLF 2023/1459): normalise and keep the original"]
+      municipality:
+        type: string
+        required: true
+        lm: kommun
+        ui: { by: system }
+        facts: ["Municipality NAME in plain text, e.g. 'Luleå' (vägledning 2.1.1). The plan must lie within it, or delivery stops. The update API's leveransinfo.provider is the kommunkod (Luleå 2580), a different field"]
+      name:
+        type: string
+        required: true
+        lm: namn
+        ui: { by: official, input: text }
+      designation:
+        type: string
+        lm: beteckning
+        ui: { by: official, input: text, when: antagande }
+        note: "Plan number, e.g. PL311 in Luleå's open data (PLANNUMMER)"
+      purpose:
+        type: text
+        required: true
+        lm: syfte
+        ui: { by: official, input: textarea, when: uppdrag }
+        facts: [Shown to citizens; write in plain language (INC-6)]
+      planType:
+        type: enum:PlanType
+        required: true
+        lm: typ
+        ui: { by: system }
+      procedure:
+        type: enum:Procedure
+        required: samrad
+        lm: ext
+        ui: { by: official, input: select, when: uppdrag }
+        facts: [Drives legal minimum durations, see stages.samrad and stages.granskning]
+      status:
+        type: enum:PlanStatus
+        required: true
+        lm: status
+        ui: { by: system }
+        note: Derived from the latest StageEvent. Never typed by hand. This fixes the stale-ArcGIS problem (doc 05, finding 5)
+      area:
+        type: geometry:MultiPolygon
+        required: true
+        lm: plangeometri[].geometri
+        ui: { by: official, input: map-draw, when: uppdrag }
+        facts:
+          - The area changes between stages; versioning keeps every version
+          - "Exported as ONE `yta` per polygon in plangeometri[]. Multi-geometries stop the delivery (DP-0004)"
+          - "Every plangeometri must be fully covered by användningsbestämmelser, with a 10 cm tolerance (DP-0002)"
+          - "Geometry metadata: lagesbestamningsmetodIPlan + tidpunktForLagesbestamning are required for plans started after 2021-12-31; osakertLage must not be given (DP-0010)"
+      properties:
+        type: list<string>
+        lm: ext
+        ui: { by: official, input: list }
+        note: Fastighetsbeteckningar, e.g. "Luleå Katten 6". Owners are not stored here (see fastighetsforteckning)
+      applicant:
+        type: ref:Organisation
+        lm: ext
+        ui: { by: official, input: select }
+      opCompliance:
+        type: object:OpCompliance
+        lm: ext
+        ui: { by: official, input: form, when: samrad }
+      significantEnvironmentalImpact:
+        type: boolean
+        lm: ext
+        pbl: 5 kap. 11 a §, MB 6:6
+        ui: { by: official, input: toggle, when: samrad }
+      implementationMonths:
+        type: integer
+        required: laga_kraft
+        lm: beslutsinformation[].genomforandetid
+        ui: { by: official, input: years-and-months, when: antagande }
+        facts: ["In MONTHS (vägledning 2.3.10): 10 years = 120, 5 years 6 months = 66. 5–15 years (PBL 4:21)"]
+      implementationStarts:
+        type: date
+        required: laga_kraft
+        lm: beslutsinformation[].genomforandetidStartar
+        ui: { by: official, input: date, when: laga_kraft }
+        facts: [Usually the laga kraft date]
+      startedDate:
+        type: date
+        required: laga_kraft
+        lm: beslutsinformation[].datumPaborjat
+        ui: { by: official, input: date, when: uppdrag }
+        facts: ["Required at laga kraft for plans started after 2021-12-31; use the same event every time (e.g. the planbesked date). Plans started after 2021-12-31 also require geometry metadata and provision motives"]
+      previousPlans:
+        type: list<string>
+        lm: beslutsinformation[].foregaendePlansBeteckning
+        ui: { by: official, input: list }
+      externalRefs:
+        type: list<object:ExternalRef>
+        lm: ext
+        ui: { by: official, input: list }
+        note: "e.g. Luleå's ArcGIS ARENDENR/OBJECTID and the municipality's plan page URL"
+
+  StageEvent:
+    description: The plan entered a stage. The sequence of these is the plan's history.
+    lm: ext (LM keeps only the current status + datumStatusforandring)
+    fields:
+      plan:        { type: ref:Plan, required: true, lm: ext, ui: { by: system } }
+      stage:       { type: enum:StageKind, required: true, lm: ext, ui: { by: official, input: select } }
+      startDate:   { type: date, required: true, lm: datumStatusforandring, ui: { by: official, input: date } }
+      endDate:
+        type: date
+        lm: ext
+        ui: { by: official, input: date }
+        facts: [For samråd/granskning this is the last day for comments. Validate against the legal minimum per Procedure]
+      openForComments:
+        type: boolean
+        lm: ext
+        ui: { by: system }
+        note: "true during samråd/granskning (and optional förstudie dialogues) between startDate and endDate. Drives the 'open for comments now' outline"
+      decision:    { type: ref:Decision, lm: ext, ui: { by: official, input: select } }
+      announcement:
+        type: ref:Document
+        lm: ext
+        ui: { by: official, input: upload }
+        note: Kungörelse/underrättelse
+
+  Decision:
+    description: A formal decision in the plan's life.
+    lm: beslutsinformation (adoption decisions)
+    fields:
+      plan:          { type: ref:Plan, required: true, lm: ext, ui: { by: system } }
+      kind:          { type: enum:DecisionKind, required: true, lm: beslutstyp, ui: { by: official, input: select } }
+      body:          { type: enum:Body, required: true, lm: instansInomKommunen, ui: { by: official, input: select } }
+      date:          { type: date, required: true, lm: datumAntagande, ui: { by: official, input: date } }
+      paragraph:     { type: string, lm: ext, ui: { by: official, input: text }, note: "Protocol §, e.g. '§ 102'" }
+      councilCaseNumber: { type: string, lm: diarienummerFullmaktige, ui: { by: official, input: text } }
+      protocol:      { type: ref:Document, lm: "beslutshandling[].dokument", ui: { by: official, input: upload } }
+      legalForceDate:
+        type: date
+        lm: datumLagakraft[]
+        ui: { by: official, input: date }
+        facts: [Only for adoption decisions. LM allows several dates (partial legal force)]
+      courtCaseNumbers: { type: list<string>, lm: berordDomsMalnummer, ui: { by: official, input: list } }
+      basedOn:
+        type: list<ref:Document>
+        lm: ext
+        ui: { by: official, input: multi-select }
+        note: Lineage (GOV-5) - which documents (and thereby findings) the body had in front of it
+
+  Document:
+    description: A file that belongs to the plan at a given stage.
+    lm: dokumentreferens
+    fields:
+      plan:         { type: ref:Plan, required: true, lm: ext, ui: { by: system } }
+      documentType: { type: enum:DocumentType, required: true, lm: innehall / planbeskrivning, ui: { by: official, input: select } }
+      title:        { type: string, required: true, lm: namn, ui: { by: official, input: text } }
+      shortName:    { type: string, lm: kortnamn, ui: { by: official, input: text } }
+      stage:        { type: enum:StageKind, required: true, lm: ext, ui: { by: official, input: select } }
+      date:         { type: date, required: true, lm: datum.datum, ui: { by: official, input: date } }
+      file:         { type: file, lm: "referens[].lank", ui: { by: official, input: upload } }
+      url:          { type: url, lm: "referens[].lank", ui: { by: official, input: text } }
+      supersedes:
+        type: ref:Document
+        lm: ext
+        ui: { by: official, input: select }
+        facts: ["e.g. 'Planbeskrivning [G]' supersedes 'Planbeskrivning [S]'. Keep both: the samråd version is what people commented on"]
+      public:
+        type: boolean
+        required: true
+        lm: ext
+        ui: { by: official, input: toggle }
+        facts: [false for fastighetsforteckning (personal data)]
+
+  Organisation:
+    description: Consultant, authority, developer or utility. Persons are not modelled (GDPR).
+    lm: ext
+    fields:
+      name:  { type: string, required: true, lm: ext, ui: { by: official, input: text } }
+      role:  { type: list<enum:OrganisationRole>, required: true, lm: ext, ui: { by: official, input: multi-select } }
+      orgNumber: { type: string, lm: ext, ui: { by: official, input: text } }
+
+  Investigation:
+    description: >
+      An utredning or other planning material (planeringsunderlag), e.g. "Trafikbullerutredning,
+      Tyréns, 2023-10-05". Created as soon as it's known to be needed, so a missing
+      investigation is visible.
+    lm: planeringsunderlag (huvudomrade=utredningar, underlagstyp, underlag)
+    pbl: 5 kap. 8 §, 5 § (planbesked), 13 § (presented during samråd)
+    fields:
+      plan:     { type: ref:Plan, required: true, lm: ext, ui: { by: system } }
+      type:     { type: enum:InvestigationType, required: true, lm: underlagstyp, ui: { by: official, input: select } }
+      area:     { type: enum:PlanningMaterialArea, required: true, lm: huvudomrade, ui: { by: system }, note: "utredningar for consultant studies" }
+      title:    { type: string, required: true, lm: underlag.namn, ui: { by: official, input: text } }
+      status:   { type: enum:InvestigationStatus, required: true, lm: ext, ui: { by: official, input: select } }
+      author:   { type: ref:Organisation, lm: ext, ui: { by: official, input: select }, note: "e.g. Afry, Tyréns" }
+      date:     { type: date, required: delivered, lm: underlag.datum.datum, ui: { by: official, input: date } }
+      stage:    { type: enum:StageKind, required: true, lm: ext, ui: { by: official, input: select } }
+      report:   { type: ref:Document, required: delivered, lm: underlag.referens, ui: { by: official, input: upload } }
+      scope:    { type: geometry:MultiPolygon, lm: ext, ui: { by: official, input: map-draw }, note: "Defaults to the plan area; often larger (the noise model covers the street)" }
+      supersedes:
+        type: ref:Investigation
+        lm: ext
+        ui: { by: official, input: select }
+        facts: ["Katten 6: PM Dagvattenhantering 2023-04-18 (samråd) is superseded by 2024-06-28 (granskning)"]
+      summary:
+        type: text
+        lm: ext
+        ui: { by: official, input: textarea }
+        facts: [Plain-language summary for citizens. Without it, the PDF is the only interface]
+
+  Observation:
+    description: >
+      A raw, located fact: a soil sample, a borehole, a measured noise level, a national dataset
+      class at a place, or a citizen's report. The smallest unit of evidence. It can outlive
+      the plan (the same borehole serves the next plan in the block).
+    lm: ext
+    fields:
+      kind:        { type: enum:ObservationKind, required: true, lm: ext, ui: { by: official, input: select } }
+      label:       { type: string, required: true, lm: ext, ui: { by: official, input: text }, note: "e.g. '24AF005'" }
+      location:
+        type: geometry:Any
+        required: true
+        lm: ext
+        ui: { by: official, input: map-point }
+        facts: [Points in 3D (Z = RH 2000) where height matters, e.g. noise per floor on a façade]
+      depthFrom:   { type: decimal, lm: ext, ui: { by: official, input: number }, note: "Metres below ground (m.u.my.)" }
+      depthTo:     { type: decimal, lm: ext, ui: { by: official, input: number } }
+      observedAt:  { type: datetime, lm: ext, ui: { by: official, input: date }, facts: ["Season matters: groundwater in January differs from April"] }
+      method:      { type: string, lm: ext, ui: { by: official, input: text }, note: "e.g. lab analysis, Nordic noise model, SGU radon map 1987" }
+      values:      { type: list<object:MeasuredValue>, lm: ext, ui: { by: official, input: table } }
+      investigation: { type: ref:Investigation, lm: ext, ui: { by: official, input: select } }
+      source:      { type: ref:Organisation, lm: ext, ui: { by: official, input: select } }
+      contribution:
+        type: ref:Contribution
+        lm: ext
+        ui: { by: system }
+        note: Set when a citizen reported it (kind = local_knowledge)
+      licence:     { type: string, lm: ext, ui: { by: official, input: text }, note: "e.g. CC BY 4.0 for national open data" }
+
+  Dataset:
+    description: >
+      A processed data product derived from observations: a noise grid, flow paths, a lab-results
+      table, a terrain model. Unlike a Document, it's machine-readable and can be shown in
+      the viewer.
+    lm: ext
+    fields:
+      title:        { type: string, required: true, lm: ext, ui: { by: official, input: text } }
+      investigation: { type: ref:Investigation, lm: ext, ui: { by: official, input: select } }
+      format:       { type: string, required: true, lm: ext, ui: { by: official, input: select }, note: "GeoJSON, CSV, GeoTIFF, 3D Tiles, IFC…" }
+      file:         { type: file, lm: ext, ui: { by: official, input: upload } }
+      crs:          { type: string, required: true, lm: ext, ui: { by: official, input: select }, facts: ["Default EPSG:3006 + RH 2000; consultant files often use local systems. Record what's actually in the file"] }
+      derivedFrom:  { type: list<ref:Observation>, lm: ext, ui: { by: official, input: multi-select } }
+      method:       { type: text, lm: ext, ui: { by: official, input: textarea } }
+
+  Norm:
+    description: >
+      A reference value a finding is assessed against. A norm is versioned like everything else,
+      because guidelines change and old findings must stay interpretable.
+    lm: ext
+    fields:
+      code:        { type: string, required: true, lm: ext, ui: { by: official, input: text }, note: "Our key, e.g. SFS-2015-216" }
+      title:       { type: string, required: true, lm: ext, ui: { by: official, input: text } }
+      source:      { type: string, required: true, lm: ext, ui: { by: official, input: text }, note: "Statute/agency, e.g. Förordning (2015:216) om trafikbuller vid bostadsbyggnader" }
+      thresholds:  { type: list<object:Threshold>, required: true, lm: ext, ui: { by: official, input: table } }
+      validFromDate: { type: date, lm: ext, ui: { by: official, input: date } }
+
+  Finding:
+    description: >
+      The interpretation step: what an investigation concluded, compared with a norm,
+      and what follows from it. This is where observation turns into planning.
+    lm: ext (the plan-side result is planbestammelsebeskrivning.motiv)
+    fields:
+      plan:          { type: ref:Plan, required: true, lm: ext, ui: { by: system } }
+      topic:         { type: enum:InvestigationType, required: true, lm: ext, ui: { by: official, input: select } }
+      statement:     { type: text, required: true, lm: ext, ui: { by: official, input: textarea }, note: "e.g. 'Up to 63 dBA Leq on floors 1–6 facing Skeppsbrogatan'" }
+      value:         { type: object:MeasuredValue, lm: ext, ui: { by: official, input: form } }
+      norm:          { type: ref:Norm, lm: ext, ui: { by: official, input: select } }
+      assessment:    { type: enum:Assessment, required: true, lm: ext, ui: { by: official, input: select } }
+      where:
+        type: geometry:Any
+        lm: ext
+        ui: { by: official, input: map-draw }
+        facts: [Can be 3D (a façade band from floor 1 to 6)]
+      basedOn:       { type: list<ref:Investigation>, required: true, lm: ext, ui: { by: official, input: multi-select } }
+      evidence:      { type: list<ref:Observation>, lm: ext, ui: { by: official, input: multi-select } }
+      stage:         { type: enum:StageKind, required: true, lm: ext, ui: { by: official, input: select } }
+      consequences:
+        type: list<object:Consequence>
+        required: true
+        lm: ext
+        ui: { by: official, input: list }
+        facts: ["One finding can motivate several provisions; 'none' is a valid, recorded answer"]
+
+  Provision:
+    description: >
+      A planbestämmelse: the legally binding content of the plan, with geometry and a required
+      motive. Boverket's catalogue defines the codes (B, C, P, h1, f1…). The motive must be
+      stored digitally (stated in the Katten 6 planbeskrivning, citing Boverket).
+    lm: planbestammelse (+ anvandningsbestammelse | egenskapsbestammelse | administrativBestammelse)
+    fields:
+      plan:            { type: ref:Plan, required: true, lm: detaljplan, ui: { by: system } }
+      kind:            { type: enum:ProvisionKind, required: true, lm: feature:typ, ui: { by: official, input: select } }
+      catalogueRef:    { type: uuid, required: true, lm: planbestammelsekatalogreferens, ui: { by: official, input: catalogue-picker }, facts: ["Boverket's planbestämmelsekatalog; picking from it keeps the wording standard"] }
+      code:            { type: string, required: true, lm: ext, ui: { by: official, input: text }, note: "Label on the plankarta, e.g. B1, h3, P1. LM has no field for it; our exporter writes it into beskrivningAnvandbarhet" }
+      wording:
+        type: text
+        required: true
+        lm: bestammelseformulering
+        ui: { by: system }
+        facts:
+          - "Must equal the catalogue template with its [variable:type] placeholders filled in, e.g. 'Högsta nockhöjd på [byggnadsverk:text] är [höjd:decimaltal] meter[text:text]' → 'Högsta nockhöjd på byggnad är 22 meter' (DP-0022, stops delivery)"
+          - "Anything the template can't say (e.g. 'from floor 7') is expressed by geometry and vertical bound, not by extra text"
+      values:
+        type: list<object:ProvisionValue>
+        lm: bestammelsevarde
+        ui: { by: official, input: template-variables }
+        facts:
+          - "One value per variable USED in the wording, in template order; none for omitted variables (DP-0022)"
+          - "Decimal values need vardetyp and enhet (DP-0009)"
+      geometry:
+        type: geometry:Any
+        required: true
+        lm: "bestammelsegeometri[].geometri"
+        ui: { by: official, input: map-draw }
+        facts:
+          - "MultiPolygon for area provisions (LM yta), MultiLineString for line provisions (LM linje), as the catalogue entry's geometrityp says (e.g. Utfartsförbud is Linje)"
+          - "Exported as one yta or linje per part: multi-geometries stop the delivery (DP-0004)"
+      verticalBound:   { type: enum:VerticalBound, lm: vertikalAvgransning, ui: { by: official, input: select } }
+      levelFrom:
+        type: decimal
+        lm: bestammelsegeometri (Z of the geometry)
+        ui: { by: official, input: number }
+        facts:
+          - "Height in RH 2000. Bounded one way: a `yta` with this Z + vertikalAvgransning ('uppåt' = does NOT apply above it, 'nedåt' = does NOT apply below it). Bounded both ways (levelFrom + levelTo): a `kropp` (solid), and then no vertikalAvgransning (DP-0015)"
+          - "Never as bestammelsevarde: the catalogue wording for e.g. 'Parkering' has no variables (DP-0022)"
+      levelTo:         { type: decimal, lm: bestammelsegeometri (Z of the geometry), ui: { by: official, input: number } }
+      motive:          { type: text, required: samrad, lm: planbestammelsebeskrivning.motiv, ui: { by: official, input: textarea }, facts: ["Optional in LM 4.1, required here (law + GOV-5)"] }
+      motivatedBy:     { type: list<ref:Finding>, lm: ext, ui: { by: official, input: multi-select }, note: "Lineage: B1 ← noise finding + daylight finding" }
+      regulates:       { type: list<ref:Provision>, lm: egenskapsbestammelse.reglerarAnvandningsbestammelse, ui: { by: official, input: multi-select } }
+      stage:           { type: enum:StageKind, required: true, lm: ext, ui: { by: official, input: select } }
+
+  Obligation:
+    description: >
+      Work the plan defers to a later stage, e.g. "Geotechnical survey before design" or "Radon
+      measurement before construction". Tracked until fulfilled, so it isn't lost at adoption.
+    lm: ext
+    fields:
+      plan:         { type: ref:Plan, required: true, lm: ext, ui: { by: system } }
+      description:  { type: text, required: true, lm: ext, ui: { by: official, input: textarea } }
+      responsible:  { type: enum:OrganisationRole, required: true, lm: ext, ui: { by: official, input: select }, note: "Usually byggherre/exploatör" }
+      due:          { type: enum:ObligationDue, required: true, lm: ext, ui: { by: official, input: select } }
+      arisesFrom:   { type: list<ref:Finding>, required: true, lm: ext, ui: { by: official, input: multi-select } }
+      legalBasis:   { type: string, lm: ext, ui: { by: official, input: text }, note: "e.g. 'MB 10 kap. 11 §', 'FMH 28 §', 'BBR radon'" }
+      status:       { type: enum:ObligationStatus, required: true, lm: ext, ui: { by: official, input: select } }
+      fulfilledBy:  { type: ref:Document, lm: ext, ui: { by: official, input: upload } }
+
+  Contribution:
+    description: >
+      Input from the public or a consulted body. Extends today's comments (/api/comments)
+      with a kind, and with a link to the plan, stage, document or provision it concerns.
+    lm: ext
+    fields:
+      kind:       { type: enum:ContributionKind, required: true, lm: ext, ui: { by: citizen, input: choice } }
+      plan:       { type: ref:Plan, lm: ext, ui: { by: system }, note: "From the selected plan or object" }
+      stage:      { type: enum:StageKind, lm: ext, ui: { by: system }, note: "The stage the plan was in when this was submitted" }
+      target:     { type: object:Target, required: true, lm: ext, ui: { by: system }, note: "What was selected: building, plan, provision, document" }
+      body:       { type: text, required: true, lm: ext, ui: { by: citizen, input: textarea }, facts: [Max 2000 characters] }
+      viewpoint:  { type: object:Viewpoint, lm: ext, ui: { by: system } }
+      photos:     { type: list<file>, lm: ext, ui: { by: citizen, input: upload } }
+      submittedAt:
+        type: datetime
+        required: true
+        lm: ext
+        ui: { by: system }
+        facts: [For formal_statement during granskning this decides appeal rights - store server time]
+      author:     { type: string, required: true, lm: ext, ui: { by: system }, facts: [OIDC subject; only the pseudonym is shown] }
+      onBehalfOf: { type: ref:Organisation, lm: ext, ui: { by: citizen, input: select }, note: "Remissinstans or association" }
+
+  Response:
+    description: >
+      The municipality's answer to a contribution. Collected into the samrådsredogörelse or
+      granskningsutlåtande.
+    lm: ext
+    pbl: 5 kap. 17 §, 23 §
+    fields:
+      contribution: { type: ref:Contribution, required: true, lm: ext, ui: { by: system } }
+      outcome:      { type: enum:ResponseOutcome, required: true, lm: ext, ui: { by: official, input: select } }
+      text:         { type: text, required: true, lm: ext, ui: { by: official, input: textarea } }
+      changed:      { type: list<ref:Provision>, lm: ext, ui: { by: official, input: multi-select }, note: "Shows the citizen what changed because of them (SOC-4)" }
+      reportedIn:   { type: ref:Document, lm: ext, ui: { by: official, input: select } }
+
+# --------------------------------------------------------------------------------------------
+# Embedded value objects
+# --------------------------------------------------------------------------------------------
+objects:
+  OpCompliance:
+    fields:
+      compliant:  { type: boolean, required: true }
+      deviation:  { type: text, note: "e.g. 'ÖP: 4–5 floors, max 10–12; plan allows 15'" }
+      motive:     { type: text }
+      supportedBy: { type: list<ref:Document>, note: "e.g. planprogram 2011 § 227" }
+  ExternalRef:
+    fields:
+      system:     { type: string, required: true, note: "e.g. lulea-arcgis, lulea-web, lm-ngp" }
+      id:         { type: string }
+      url:        { type: url }
+  MeasuredValue:
+    fields:
+      parameter:  { type: string, required: true, note: "e.g. Leq, Lmax, barium, groundwater level" }
+      value:      { type: decimal, required: true }
+      unit:       { type: enum:Unit, required: true }
+      kind:       { type: enum:ValueKind }
+  Threshold:
+    fields:
+      parameter:  { type: string, required: true }
+      value:      { type: decimal, required: true }
+      unit:       { type: enum:Unit, required: true }
+      kind:       { type: enum:ValueKind, required: true }
+      context:    { type: string, note: "e.g. 'at façade', 'känslig markanvändning (KM)'" }
+  ProvisionValue:
+    lm: variabelvarde
+    fields:
+      dataType:    { type: string, required: true, lm: datatyp, note: "text | decimaltal" }
+      value:       { type: string, required: true, lm: variabelvarde }
+      description: { type: string, required: true, lm: beskrivning }
+      kind:        { type: enum:ValueKind, lm: vardetyp }
+      unit:        { type: enum:Unit, lm: enhet }
+  Consequence:
+    fields:
+      kind:        { type: enum:ConsequenceKind, required: true }
+      provision:   { type: ref:Provision }
+      obligation:  { type: ref:Obligation }
+      text:        { type: text, note: "The recommendation itself, or why no action" }
+  Target:
+    fields:
+      layerId:     { type: string, required: true }
+      targetId:    { type: string, required: true, note: "Stable ID, as in today's comments" }
+      label:       { type: string }
+  Viewpoint:
+    fields:
+      position:    { type: list<decimal>, required: true }
+      target:      { type: list<decimal>, required: true }

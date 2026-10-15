@@ -1,0 +1,27 @@
+node_modules
+# Data stays local: source models, plan documents, scratch files (data/local-scratch).
+/data
+
+# Generated or third-party data kept out of git
+/code-with-quarkus/src/main/resources/tiles/
+/code-with-quarkus/target/
+/Sample-Test-Files-main/
+/web/public/example/
+/web/public/example.zip
+
+# local infrastructure
+forgejo/
+rustfs/
+pocketbase/
+/3dtiles
+
+# secrets: never commit; use env vars or .dvc/config.local
+creds.txt
+.env
+.env.*
+!.env.example
+
+# python / jvm artifacts
+__pycache__/
+*.pyc
+hs_err_pid*.log

@@ -1,0 +1,17 @@
+# Dev identity provider (OIDC). See docs/decisions/0005-identity-oidc-keycloak.md
+#   docker compose -f infra/keycloak/docker-compose.yaml up -d
+#   Admin console: http://localhost:8180/admin  (admin / admin, dev only)
+# The realm is imported from realm-bimgis.json when the container is first created.
+# Recreate the container (down + up) to re-import after editing the file.
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.7.5
+    container_name: bimgis-keycloak
+    command: start-dev --import-realm --http-port=8180
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - '8180:8180'
+    volumes:
+      - ./realm-bimgis.json:/opt/keycloak/data/import/realm-bimgis.json:ro

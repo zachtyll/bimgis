@@ -1,0 +1,13 @@
+{
+  "name": "bimgis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Repo tooling. The frontend lives in web/.",
+  "scripts": {
+    "dev": "npm --prefix web run dev"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.34.0"
+  }
+}

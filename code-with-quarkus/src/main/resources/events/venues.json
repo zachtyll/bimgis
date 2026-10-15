@@ -1,0 +1,237 @@
+{
+  "about": "Venues of events listed on visitlulea.se, placed on the map. Names match the events' 'Location' text (case-insensitive; the longest name or alias contained in it wins). Coordinates EPSG:3006, from OpenStreetMap (© OpenStreetMap contributors, ODbL) via Nominatim, by venue name or the street address visitlulea.se gives. Add a venue here when an event shows up as 'no place on the map'.",
+  "venues": [
+    {
+      "id": "norrbottensteatern",
+      "name": "Norrbottensteatern",
+      "aliases": [],
+      "x": 828857.8,
+      "y": 7292359.4,
+      "located": "OSM"
+    },
+    {
+      "id": "gammelstad-visitor-center",
+      "name": "Gammelstad Visitor Center",
+      "aliases": [
+        "gammelstads kyrkstad"
+      ],
+      "x": 822901.4,
+      "y": 7298521.5,
+      "located": "address Kyrktorget 1 (OSM)"
+    },
+    {
+      "id": "kulturens-hus",
+      "name": "Kulturens hus",
+      "aliases": [
+        "konsthallen"
+      ],
+      "x": 829292.6,
+      "y": 7292480.4,
+      "located": "OSM"
+    },
+    {
+      "id": "ebeneser",
+      "name": "Kulturcentrum Ebeneser",
+      "aliases": [
+        "ebeneser"
+      ],
+      "x": 829378.7,
+      "y": 7292360.3,
+      "located": "OSM"
+    },
+    {
+      "id": "slojd-och-formcenter",
+      "name": "Slöjd & Formcenter",
+      "aliases": [
+        "slöjd och formcenter",
+        "slöjd- och formcenter"
+      ],
+      "x": 829443.0,
+      "y": 7292444.2,
+      "located": "OSM"
+    },
+    {
+      "id": "arkivcentrum",
+      "name": "Arkivcentrum Norrbotten",
+      "aliases": [],
+      "x": 829784.1,
+      "y": 7295756.2,
+      "located": "address Hästvägen 7 (OSM)"
+    },
+    {
+      "id": "dansinitiativet",
+      "name": "Dansinitiativet",
+      "aliases": [],
+      "x": 828673.1,
+      "y": 7293761.1,
+      "located": "address Älgatan 7 E (OSM, street)"
+    },
+    {
+      "id": "energi-arena",
+      "name": "Luleå Energi Arena",
+      "aliases": [
+        "coop norrbotten arena",
+        "energi arena"
+      ],
+      "x": 829194.9,
+      "y": 7292738.3,
+      "located": "OSM"
+    },
+    {
+      "id": "lulea-centrum",
+      "name": "Luleå centrum",
+      "aliases": [
+        "luleå city",
+        "luleå centrum"
+      ],
+      "x": 829365.1,
+      "y": 7292318.1,
+      "located": "Storgatan (OSM)"
+    },
+    {
+      "id": "lillan",
+      "name": "Lillan",
+      "aliases": [],
+      "x": 829039.6,
+      "y": 7292303.8,
+      "located": "OSM"
+    },
+    {
+      "id": "bottenvikens-bryggeri",
+      "name": "Bottenvikens Bryggeri",
+      "aliases": [],
+      "x": 828687.7,
+      "y": 7295246.8,
+      "located": "OSM"
+    },
+    {
+      "id": "hagnan",
+      "name": "Friluftsmuseet Hägnan",
+      "aliases": [
+        "hägnan"
+      ],
+      "x": 823176.9,
+      "y": 7298882.4,
+      "located": "OSM"
+    },
+    {
+      "id": "sunderby-folkhogskola",
+      "name": "Sunderby folkhögskola",
+      "aliases": [
+        "galleri y"
+      ],
+      "x": 818806.6,
+      "y": 7299534.6,
+      "located": "OSM"
+    },
+    {
+      "id": "holy-cow",
+      "name": "Holy Cow",
+      "aliases": [],
+      "x": 828906.6,
+      "y": 7292174.5,
+      "located": "address Storgatan 9 (OSM)"
+    },
+    {
+      "id": "hotell-sunderbyn",
+      "name": "Hotell Sunderbyn",
+      "aliases": [],
+      "x": 818822.7,
+      "y": 7299445.8,
+      "located": "address Kråkbergsvägen 7 (OSM, street)"
+    },
+    {
+      "id": "vetenskapens-hus",
+      "name": "Vetenskapens hus",
+      "aliases": [],
+      "x": 829493.0,
+      "y": 7292404.6,
+      "located": "OSM"
+    },
+    {
+      "id": "stadsparken",
+      "name": "Stadsparken",
+      "aliases": [],
+      "x": 829073.4,
+      "y": 7292101.0,
+      "located": "address Rådhustorget 5 (OSM)"
+    },
+    {
+      "id": "gula-paviljongen",
+      "name": "Gula Paviljongen",
+      "aliases": [],
+      "x": 829241.8,
+      "y": 7292284.4,
+      "located": "Storgatan (OSM, street)"
+    },
+    {
+      "id": "ornasets-kyrka",
+      "name": "Örnäsets kyrka",
+      "aliases": [],
+      "x": 831659.0,
+      "y": 7292163.9,
+      "located": "OSM"
+    },
+    {
+      "id": "hemmagastronomi",
+      "name": "Hemmagastronomi",
+      "aliases": [
+        "hemmagastronomis deli"
+      ],
+      "x": 828923.3,
+      "y": 7292319.0,
+      "located": "OSM"
+    },
+    {
+      "id": "shopping",
+      "name": "Shopping (galleria)",
+      "aliases": [
+        "shopping",
+        "ljusgården i shopping",
+        "galleria shopping"
+      ],
+      "x": 829453.6,
+      "y": 7292422.2,
+      "located": "OSM"
+    },
+    {
+      "id": "bakfickan",
+      "name": "Bakfickan (Elite Stadshotellet)",
+      "aliases": [
+        "bakfickan",
+        "elite stadshotellet",
+        "stadshotellet"
+      ],
+      "x": 829041.0,
+      "y": 7292225.3,
+      "located": "address Storgatan 15 (OSM)"
+    },
+    {
+      "id": "ranebygdens-ridklubb",
+      "name": "Rånebygdens Ridklubb",
+      "aliases": [],
+      "x": 832527.2,
+      "y": 7322930.0,
+      "located": "address Kängsövägen 134 (OSM, street)"
+    },
+    {
+      "id": "rutviks-bygdegard",
+      "name": "Rutviks Bygdegård",
+      "aliases": [],
+      "x": 824993.6,
+      "y": 7302592.1,
+      "located": "address Flarkenvägen 9 (OSM, street)"
+    },
+    {
+      "id": "sodra-hamn",
+      "name": "Södra hamn",
+      "aliases": [
+        "isbanan vid södra hamn",
+        "tentipi"
+      ],
+      "x": 829369.0,
+      "y": 7291826.7,
+      "located": "OSM"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+stages:
+  tiles:
+    foreach: ${ifc_files}
+    do:
+      cmd: py3dtiles convert ${item.path} --out 3dtiles/${item.key} --overwrite
+      deps:
+        - ${item.path}
+        - scripts/convert_ifc.py
+      outs:
+        - 3dtiles/${item.key}
+  upload:
+    foreach: ${ifc_files}
+    do:
+      cmd: python scripts/upload_tiles.py 3dtiles/${item.key} ${item.key}
+      deps:
+        - scripts/upload_tiles.py
+        - 3dtiles/${item.key}

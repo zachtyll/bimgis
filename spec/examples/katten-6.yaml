@@ -1,0 +1,415 @@
+# Worked example: Detaljplan för del av centrum, fastigheten Katten 6 (Luleå, KLF2023/1459).
+# Sources: "Planbeskrivning [Antagande] KLF 2023-1459 DP Katten 6 260120.pdf" (data/example-planning-data/), and
+# the plan map "Plankarta [G] KLF 2023-1459 DP Katten 6" (granskningshandling, 2025-10-21, lulea.se): provision
+# areas, wordings and the plan boundary are digitised from it (scripts/digitise_plankarta.py).
+# Hand-entered as an official would through the UI, with the plan map's geometry. Investigations
+# and findings are a subset. IDs are readable keys here; the platform uses uuids.
+
+organisations:
+  - { id: org-lulea, name: Luleå kommun, role: [kommun] }
+  - { id: org-afry, name: Afry, role: [konsult] }
+  - { id: org-tyrens, name: Tyréns, role: [konsult] }
+  - { id: org-clarholm, name: Clarholm Energi- & Klimatanalys AB, role: [konsult] }
+  - { id: org-fastighet, name: Folkets Energihus AB, role: [exploator] }
+
+plan:
+  id: plan-katten6
+  caseNumber: KLF2023/1459
+  municipality: Luleå
+  name: Detaljplan för del av centrum, fastigheten Katten 6
+  purpose: >
+    Möjliggöra ny bebyggelse i upp till 15 våningar på Katten 6, som idag är en parkering,
+    och förtäta centrum med centrumverksamhet och bostäder.
+  planType: detaljplan
+  procedure: utokat
+  status: antagen
+  properties: [Luleå Katten 6, Luleå Innerstaden 2:1]
+  # The plan map's plan boundary, EPSG:3006. Within 0.3 m (max 4.9 m at one corner) of the boundary in
+  # Luleå's open data (GNG_detaljplaner_pagande, ARENDENR KLF2023-1459).
+  area:
+    type: MultiPolygon
+    coordinates: [[[[829353.51, 7292446.58], [829360.12, 7292429.85], [829351.73, 7292426.6], [829360.75, 7292403.77], [829365.72, 7292391.24], [829375.01, 7292392.24], [829375.71, 7292390.47], [829366.41, 7292389.46], [829369.44, 7292381.8], [829377.84, 7292385.1], [829376.75, 7292387.84], [829404.5, 7292398.46], [829387.87, 7292440.56], [829412.54, 7292450.09], [829405.12, 7292466.49], [829353.51, 7292446.58]]]]
+  previousPlans: [A068]   # "Kv Kaninen, Haren, Uttern, Mården, Hermelinen, Hunden, Katten mfl", laga kraft 1965-03-01
+  externalRefs:
+    - { system: lulea-arcgis, id: KLF2023-1459 }   # open data still says "Samråd pågår" (stale, see doc 05)
+  applicant: org-fastighet
+  significantEnvironmentalImpact: false
+  implementationMonths: 120
+  opCompliance:
+    compliant: false
+    deviation: "ÖP 2021 'tät struktur': 4–5 floors, max 10–12 for single projects. Plan allows 15 (45 m)."
+    motive: Densification strategy; Norra hamn identified as suitable for taller buildings.
+    supportedBy: [doc-planprogram-2011]
+
+stageEvents:
+  - { id: se-1, plan: plan-katten6, stage: samrad, startDate: 2023-12-01 }   # date not stated in the PB; illustrative
+  - { id: se-2, plan: plan-katten6, stage: granskning, startDate: 2025-11-01 } # "slutet av 2025"; illustrative
+  - { id: se-3, plan: plan-katten6, stage: antagande, startDate: 2026-01-20 }
+
+documents:
+  - { id: doc-pb-antagande, plan: plan-katten6, documentType: planbeskrivning, title: "Planbeskrivning [Antagande] KLF 2023-1459 DP Katten 6", stage: antagande, date: 2026-01-20, public: true }
+  - { id: doc-planprogram-2011, plan: plan-katten6, documentType: planprogram, title: "Planprogram Norra hamn (KF 2011-10-17 § 227)", stage: program, date: 2011-10-17, public: true }
+  - { id: doc-buller, plan: plan-katten6, documentType: utredning, title: Trafikbullerutredning, stage: samrad, date: 2023-10-05, public: true }
+  - { id: doc-dagvatten-2023, plan: plan-katten6, documentType: utredning, title: PM Dagvattenhantering, stage: samrad, date: 2023-04-18, public: true }
+  - { id: doc-dagvatten-2024, plan: plan-katten6, documentType: utredning, title: PM Dagvattenhantering, stage: granskning, date: 2024-06-28, public: true, supersedes: doc-dagvatten-2023 }
+  - { id: doc-miljoteknik, plan: plan-katten6, documentType: utredning, title: Miljöteknisk undersökning, stage: granskning, date: 2024-06-28, public: true }
+
+investigations:
+  - id: inv-buller
+    plan: plan-katten6
+    type: bullerutredning
+    area: utredningar
+    title: Trafikbullerutredning
+    status: delivered
+    author: org-tyrens
+    date: 2023-10-05
+    stage: samrad
+    report: doc-buller
+    summary: Traffic on Skeppsbrogatan makes the lower floors facing the street too noisy for housing.
+  - { id: inv-dagsljus, plan: plan-katten6, type: dagsljus_och_skugga, area: utredningar, title: Dagsljusberäkning, status: delivered, author: org-clarholm, date: 2023-10-02, stage: samrad }
+  - { id: inv-dagvatten-2023, plan: plan-katten6, type: dagvattenutredning, area: utredningar, title: PM Dagvattenhantering, status: superseded, author: org-afry, date: 2023-04-18, stage: samrad, report: doc-dagvatten-2023 }
+  - { id: inv-dagvatten-2024, plan: plan-katten6, type: dagvattenutredning, area: utredningar, title: PM Dagvattenhantering, status: delivered, author: org-afry, date: 2024-06-28, stage: granskning, report: doc-dagvatten-2024, supersedes: inv-dagvatten-2023 }
+  - { id: inv-geoteknik, plan: plan-katten6, type: geoteknisk_utredning, area: utredningar, title: Geotekniskt utlåtande, status: delivered, author: org-afry, date: 2023-11-14, stage: samrad }
+  - { id: inv-miljoteknik, plan: plan-katten6, type: markmiljoutredning, area: utredningar, title: Miljöteknisk undersökning, status: delivered, author: org-afry, date: 2024-06-28, stage: granskning, report: doc-miljoteknik }
+
+observations:
+  - id: obs-24AF005
+    kind: sample
+    label: 24AF005 (2–2.5 m)
+    location: { type: Point, coordinates: [829385, 7292425] }   # approximate, inside the plan area; exact position in Bild 28
+    depthFrom: 2.0
+    depthTo: 2.5
+    method: Lab analysis of soil sample
+    investigation: inv-miljoteknik
+    source: org-afry
+    values: []   # lab values are in the investigation report, not the planbeskrivning (Ba, Cu, Zn > MKM)
+  - id: obs-facade-skeppsbrogatan
+    kind: calculation
+    label: Façade Skeppsbrogatan, floors 1–6
+    location: { type: Point, coordinates: [829380, 7292455, 10] }  # approximate: street façade, ~3rd floor
+    method: Nordic road traffic noise model (Tyréns)
+    investigation: inv-buller
+    values:
+      - { parameter: Leq, value: 63, unit: dB(A), kind: max }
+
+norms:
+  - code: SFS-2015-216
+    title: Riktvärden för trafikbuller vid bostadsbyggnader
+    source: Förordning (2015:216) om trafikbuller vid bostadsbyggnader
+    thresholds:
+      - { parameter: Leq, value: 60, unit: dB(A), kind: max, context: at façade }
+
+findings:
+  - id: f-buller
+    plan: plan-katten6
+    topic: bullerutredning
+    statement: Up to 63 dBA Leq on floors 1–6 facing Skeppsbrogatan; ≤ 60 dBA from floor 7.
+    value: { parameter: Leq, value: 63, unit: dB(A), kind: max }
+    norm: SFS-2015-216
+    assessment: exceeds
+    basedOn: [inv-buller]
+    evidence: [obs-facade-skeppsbrogatan]
+    stage: samrad
+    consequences:
+      - { kind: provision, provision: prov-B1 }
+  - id: f-dagsljus
+    plan: plan-katten6
+    topic: dagsljus_och_skugga
+    statement: Lower floors do not reach daylight guidelines.
+    assessment: exceeds
+    basedOn: [inv-dagsljus]
+    stage: samrad
+    consequences:
+      - { kind: provision, provision: prov-B1 }
+  - id: f-dagvatten
+    plan: plan-katten6
+    topic: dagvattenutredning
+    statement: Flow increases after development (20-year rain, 10 min, climate factor 1.25). Infiltration is risky because of contamination.
+    assessment: exceeds
+    basedOn: [inv-dagvatten-2024]
+    stage: granskning
+    consequences:
+      - { kind: recommendation, text: "Sealed underground pipe storage of 14.5 m³; connect in Skeppsbrogatan in consultation with Lumire." }
+  - id: f-geoteknik
+    plan: plan-katten6
+    topic: geoteknisk_utredning
+    statement: Basement foundation likely feasible, but loads and ground pressure are unknown.
+    assessment: uncertain
+    basedOn: [inv-geoteknik]
+    stage: samrad
+    consequences:
+      - { kind: obligation, obligation: obl-geoteknik }
+  - id: f-markmiljo
+    plan: plan-katten6
+    topic: markmiljoutredning
+    statement: 1 of 13 samples above MKM (Ba, Cu, Zn), 2 above KM (metals, PAH-H, PFOS).
+    # norm: Naturvårdsverket's generella riktvärden (KM/MKM). Add as a Norm with the real table values.
+    assessment: exceeds
+    basedOn: [inv-miljoteknik]
+    evidence: [obs-24AF005]
+    stage: granskning
+    consequences:
+      - { kind: obligation, obligation: obl-massor }
+
+provisions:
+  # catalogueRef = Boverket planbestämmelsekatalog, release 20251201 (spec/examples/boverket-catalogue-extract.json).
+  # Matching the plan's f/p/ö codes to catalogue entries is our interpretation; a planner should confirm.
+  # Geometry and wording: the plan map (granskningshandling). Areas follow its use and property
+  # boundaries; the exit ban is a line along the block's boundary (catalogue geometrityp Linje).
+  # Genomförandetid (10 years) is a decision field since 2020, not a provision.
+  - id: prov-GATA
+    plan: plan-katten6
+    kind: användningsbestämmelse
+    catalogueRef: 7f46c19a-343d-433e-9ff8-59679eed36d8
+    code: GATA
+    wording: Gata
+    geometry: { type: MultiPolygon, coordinates: [[[[829353.51, 7292446.58], [829360.12, 7292429.85], [829412.54, 7292450.09], [829405.12, 7292466.49], [829353.51, 7292446.58]]], [[[829366.41, 7292389.46], [829369.44, 7292381.8], [829377.84, 7292385.1], [829375.71, 7292390.47], [829366.41, 7292389.46]]], [[[829362.4, 7292399.61], [829360.75, 7292403.77], [829351.73, 7292426.6], [829360.12, 7292429.85], [829370.05, 7292404.77], [829361.63, 7292401.56], [829362.4, 7292399.61]]], [[[829373.14, 7292392.04], [829374.83, 7292392.68], [829374.4, 7292393.77], [829375.01, 7292392.24], [829373.14, 7292392.04]]]] }
+    motive: Möjliggöra angöring till planområdet och en utveckling av Skeppsbrogatan, inklusive GC-väg, körbana och belysning.
+    stage: antagande
+  - id: prov-B1
+    plan: plan-katten6
+    kind: användningsbestämmelse
+    catalogueRef: f9e056a6-cda8-4b92-a15d-dc70d61dfa36
+    code: B1
+    wording: Bostäder
+    # "från våning sju och uppåt": a surface at floor 7's height with vertical bound nedåt
+    # (does not apply below it). The RH 2000 height of floor 7 isn't in the planbeskrivning.
+    geometry: { type: MultiPolygon, coordinates: [[[[829387.87, 7292440.56], [829360.12, 7292429.85], [829376.75, 7292387.84], [829404.5, 7292398.46], [829387.87, 7292440.56]]]] }
+    verticalBound: nedåt
+    motive: >
+      Möjliggöra bostäder och stärka centrum. Bostäder tillåts från våning sju för att inte förlägga
+      bostäder där buller eller dagsljus inte når riktvärdena.
+    motivatedBy: [f-buller, f-dagsljus]
+    stage: antagande
+  - id: prov-C
+    plan: plan-katten6
+    kind: användningsbestämmelse
+    catalogueRef: 5df5c910-50b0-4b57-80a4-d139115c3b73
+    code: C
+    wording: Centrum
+    geometry: { type: MultiPolygon, coordinates: [[[[829387.87, 7292440.56], [829360.12, 7292429.85], [829376.75, 7292387.84], [829404.5, 7292398.46], [829387.87, 7292440.56]]]] }
+    motive: Möjliggöra centrumfunktioner inom planområdet och därmed stärka och förtäta centrum.
+    stage: antagande
+  - id: prov-P1
+    plan: plan-katten6
+    kind: användningsbestämmelse
+    catalogueRef: cea1a8c2-7fc9-4fb2-8b6f-944716a4aa55
+    code: P1
+    wording: Parkering
+    # The map: from -1.2 m up to between +3.9 and +5.1 m over nollplan (RH 2000), i.e. a kropp whose top
+    # follows the street. Exported 2D until the solid is modelled.
+    geometry: { type: MultiPolygon, coordinates: [[[[829361.63, 7292401.56], [829365.72, 7292391.24], [829373.14, 7292392.04], [829374.83, 7292392.68], [829370.05, 7292404.77], [829361.63, 7292401.56]]]] }
+    levelFrom: -1.2
+    levelTo: 5.1
+    motive: Möjliggöra en kulvert mellan parkeringsgaraget inom planområdet och garaget på Hunden 16 utan att påverka befintliga ledningar.
+    stage: antagande
+  - id: prov-o1
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: fd3caeba-77c4-4790-bb82-23cf1a5bd602
+    code: ö1
+    wording: Endast byggnadsverk under mark.
+    values:
+      - { dataType: text, value: Endast byggnadsverk under mark, description: Endast byggnadsverk under mark }
+    geometry: { type: MultiPolygon, coordinates: [[[[829374.13, 7292394.45], [829376.75, 7292387.84], [829404.5, 7292398.46], [829401.89, 7292405.06], [829374.13, 7292394.45]]]] }
+    motive: Hålla Kattgränd fri från bebyggelse ovan mark och säkerställa kulvert/länk till garaget på Hunden 16.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-h1
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: ee5f8de3-89b0-479a-a5cb-7439d40623e8
+    code: h1
+    wording: Högsta nockhöjd är 22 meter.
+    values:
+      - { dataType: decimaltal, value: "22", description: höjd, kind: max, unit: meter }
+    geometry: { type: MultiPolygon, coordinates: [[[[829362.36, 7292430.71], [829360.12, 7292429.85], [829374.13, 7292394.45], [829376.37, 7292395.3], [829362.36, 7292430.71]]]] }
+    motive: Upp till fem våningar; stadsmässig proportion i Skomakargatans gaturum och en mänsklig skala i gatunivå.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-h2
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: ee5f8de3-89b0-479a-a5cb-7439d40623e8
+    code: h2
+    wording: Högsta nockhöjd är 26 meter.
+    values:
+      - { dataType: decimaltal, value: "26", description: höjd, kind: max, unit: meter }
+    geometry: { type: MultiPolygon, coordinates: [[[[829388.99, 7292400.13], [829401.89, 7292405.06], [829387.87, 7292440.56], [829374.97, 7292435.58], [829388.99, 7292400.13]]]] }
+    motive: Upp till sex våningar; relatera till omgivningens höjdsättning mot Skeppsbrogatan.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-h3
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: 05c9ec9d-65e2-4a64-a711-3fde76f1c4f8
+    code: h3
+    wording: Högsta totalhöjd är 45 meter.
+    values:
+      - { dataType: decimaltal, value: "45", description: höjd, kind: max, unit: meter }
+    geometry: { type: MultiPolygon, coordinates: [[[[829362.37, 7292430.72], [829376.37, 7292395.3], [829388.99, 7292400.13], [829374.97, 7292435.58], [829362.37, 7292430.72]]]] }
+    motive: >
+      Upp till 15 våningar enligt planprogrammet. Totalhöjden säkerställer att riksintresset för
+      totalförsvaret inte inskränks (högsta punkt 45 m).
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-g1
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: bcf7afec-7175-4396-aafd-de783c5b0213
+    code: g1
+    wording: Markreservat för gemensamhetsanläggning.
+    geometry: { type: MultiPolygon, coordinates: [[[[829374.13, 7292394.45], [829376.75, 7292387.84], [829404.5, 7292398.46], [829401.89, 7292405.06], [829374.13, 7292394.45]]]] }
+    motive: Ge utrymme för gemensamhetsanläggning längs Kattgränd för transporter (t.ex. Katten 6, 12, 13 och 14).
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-p1
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: e1d247ef-9b90-4558-b70d-04d472580af6
+    code: p1
+    wording: Byggnaden ska placeras i gräns mot Skeppsbrogatan och Skomakargatan. Längs Skomakargatan medges ett indrag på maximalt 2 meter från fastighetsgräns för byggnadens första två våningar.
+    values:
+      - { dataType: text, value: "Byggnaden ska placeras i gräns mot Skeppsbrogatan och Skomakargatan. Längs Skomakargatan medges ett indrag på maximalt 2 meter från fastighetsgräns för byggnadens första två våningar.", description: placering av byggnadsverk }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Följa innerstadens kvartersstruktur med hänsyn till Skomakargatans smala gaturum.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f1
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: e26a5c6c-3697-45b3-9025-4459db3dede1
+    code: f1
+    wording: Byggnadens fasad ska utföras i tegel, puts och/eller trä.
+    values:
+      - { dataType: text, value: "Byggnadens fasad ska utföras i tegel, puts och/eller trä.", description: byggnadsverks form }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Taktilt uttryck likt framträdande byggnader i närområdet; överensstämma med centrumhalvöns bebyggelse kring Norra hamn.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f4
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: e26a5c6c-3697-45b3-9025-4459db3dede1
+    code: f4
+    wording: Entré ska finnas mot Skomakargatan och Skeppsbrogatan. Entréer ska placeras med minst en meters indrag från gata.
+    values:
+      - { dataType: text, value: "Entré ska finnas mot Skomakargatan och Skeppsbrogatan. Entréer ska placeras med minst en meters indrag från gata.", description: byggnadsverks form }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Främja aktivt gatuliv och trygghet; motverka känslan av "bakgata" längs Skomakargatan.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f5
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: 455f6fee-d5fb-486a-8a0b-531f0abb9f7e
+    code: f5
+    wording: Balkong får kraga ut maximalt 1,8 meter över egenskapsområde h1 och egenskapsområde ö1 och g1 med en lägsta fri höjd om 26 meter från marknivå.
+    values:
+      - { dataType: text, value: "får kraga ut maximalt 1,8 meter över egenskapsområde h1 och egenskapsområde ö1 och g1 med en lägsta fri höjd om 26 meter från marknivå.", description: utformning }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829362.36, 7292430.71], [829376.37, 7292395.3], [829401.89, 7292405.06]]]] }
+    motive: Tillåta balkonger mot söder utan en instängd känsla längs Kattgränd.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+
+  - id: prov-s1
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: b4a22930-e0e4-4d5d-b826-c13c44893937
+    code: s1
+    wording: Byggnadens markplan får endast användas för centrumverksamhet.
+    values:
+      - { dataType: text, value: markplan, description: delar }
+      - { dataType: text, value: användas för centrumverksamhet., description: användning }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Bostäder först från våning sju; markplanet ger centrumverksamhet och liv mot gatorna.
+    motivatedBy: [f-buller, f-dagsljus]
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f2
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: e26a5c6c-3697-45b3-9025-4459db3dede1
+    code: f2
+    wording: Fasader ska utföras i varm, jordig kulör med matt yta.
+    values:
+      - { dataType: text, value: "Fasader ska utföras i varm, jordig kulör med matt yta.", description: byggnadsverks form }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Anpassa till färgsättningen i centrumhalvöns bebyggelse kring Norra hamn.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f3
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: e26a5c6c-3697-45b3-9025-4459db3dede1
+    code: f3
+    wording: Sockelvåningens fasader mot Skeppsbrogatan och Skomakargatan ska i huvudsak bestå av glas. Byggnadens sockelvåning ska markeras i sten eller tegel.
+    values:
+      - { dataType: text, value: "Sockelvåningens fasader mot Skeppsbrogatan och Skomakargatan ska i huvudsak bestå av glas. Byggnadens sockelvåning ska markeras i sten eller tegel.", description: byggnadsverks form }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Öppna sockelvåningar mot gatorna och en tydlig bas i beständiga material.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f6
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: 455f6fee-d5fb-486a-8a0b-531f0abb9f7e
+    code: f6
+    wording: Balkong får inte kraga ut över fastighetsgräns eller egenskapsområde h2.
+    values:
+      - { dataType: text, value: "får inte kraga ut över fastighetsgräns eller egenskapsområde h2.", description: utformning }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Inga balkonger över allmän plats eller mot grannfastigheten i öster.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f7
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: e26a5c6c-3697-45b3-9025-4459db3dede1
+    code: f7
+    wording: Byggnad får kraga ut med maximalt 2,4 meter över egenskapsområde ö1 och h1 med lägsta fri höjd om sex meter från marknivå och upp till 26 meters nockhöjd.
+    values:
+      - { dataType: text, value: "Byggnad får kraga ut med maximalt 2,4 meter över egenskapsområde ö1 och h1 med lägsta fri höjd om sex meter från marknivå och upp till 26 meters nockhöjd.", description: byggnadsverks form }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Medge burspråk och utkragade våningar över gränderna med fri höjd för passage.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-f8
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: 455f6fee-d5fb-486a-8a0b-531f0abb9f7e
+    code: f8
+    wording: Balkong får glasas in, endast med ramfri inglasning som väderskydd för uterum.
+    values:
+      - { dataType: text, value: "får glasas in, endast med ramfri inglasning som väderskydd för uterum.", description: utformning }
+    geometry: { type: MultiPolygon, coordinates: [[[[829401.89, 7292405.06], [829387.87, 7292440.56], [829360.12, 7292429.85], [829374.13, 7292394.45], [829401.89, 7292405.06]]]] }
+    motive: Väderskyddade uterum utan att förändra fasadens uttryck.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+  - id: prov-utfart
+    plan: plan-katten6
+    kind: egenskapsbestämmelse
+    catalogueRef: 623a21a0-5d27-4b55-889f-b0841409894d
+    code: utfartsförbud
+    wording: Utfartsförbud
+    # A line provision: along the block's boundary to Skeppsbrogatan and Skomakargatan.
+    geometry: { type: MultiLineString, coordinates: [[[829385.79, 7292439.76], [829360.12, 7292429.85], [829373.33, 7292396.49]]] }
+    motive: Inga utfarter mot Skeppsbrogatan och Skomakargatan; trafik till kvarteret sker via Kattgränd.
+    regulates: [prov-C, prov-B1]
+    stage: antagande
+obligations:
+  - id: obl-geoteknik
+    plan: plan-katten6
+    description: Översiktlig geoteknisk undersökning to confirm allowable ground pressure and foundation method.
+    responsible: byggherre
+    due: before_design
+    arisesFrom: [f-geoteknik]
+    status: open
+  - id: obl-massor
+    plan: plan-katten6
+    description: Classify excavated soil (likely IFA), leaching test at the receiving facility, sample construction-site water before discharge, notify under § 28 before groundwork.
+    responsible: byggherre
+    due: before_construction
+    arisesFrom: [f-markmiljo]
+    legalBasis: FMH 28 §; MB 10 kap. 11 §
+    status: open

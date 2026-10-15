@@ -1,0 +1,127 @@
+name: IFC to 3D Tiles
+
+on: [push]
+  # push:
+  #   paths:
+  #     - '**/*.dvc'
+  #     - 'dvc.yaml'
+  #     - 'dvc.lock'
+
+jobs:
+  convert:
+    runs-on: docker
+    container:
+      options: "--network ci-net"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y \
+            python3 \
+            python3-pip \
+            python3-venv
+
+          python3 -m venv .venv
+          . .venv/bin/activate
+
+          pip install --upgrade pip
+          pip install py3dtiles boto3 dvc[s3]
+          which dvc
+          dvc version
+
+      - name: Run DVC pipeline
+        run: |
+          .venv/bin/dvc pull
+          .venv/bin/dvc repro
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.RUSTFS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.RUSTFS_SECRET }}
+
+    # steps:
+    #   - name: Checkout
+    #     uses: actions/checkout@v4
+
+    #   - name: Network test
+    #     run: |
+    #       # ping -c 2 rustfs || true
+    #       curl -v http://localhost:9000 || true
+
+    #   - name: Install system dependencies
+    #     run: |
+    #       set -euo pipefail
+
+    #       apt-get update
+          # apt-get install -y \
+          #   python3 \
+          #   python3-pip \
+          #   python3-venv \
+          #   jq \
+          #   curl \
+          #   unzip
+
+    #   - name: Setup Python environment
+    #     run: |
+    #       set -euo pipefail
+
+          # python3 -m venv .venv
+          # . .venv/bin/activate
+
+    #       pip install --upgrade pip
+    #       pip install py3dtiles dvc[s3] boto3 awscli 
+
+    #   - name: Detect changed IFC files (DVC)
+    #     id: changed
+    #     run: |
+    #       set -euo pipefail
+
+    #       . .venv/bin/activate
+
+    #       dvc pull || true
+
+    #       dvc diff --json > diff.json
+
+    #       jq -r '
+    #         (.modified // [])[],
+    #         (.added // [])[]
+    #       ' diff.json | grep '\.ifc$' > ifc_files.txt || true
+
+    #       echo "Changed IFC files:"
+    #       cat ifc_files.txt || echo "No IFC changes detected"
+
+    #   - name: Convert IFC to 3D Tiles
+    #     run: |
+    #       set -euo pipefail
+
+    #       . .venv/bin/activate
+
+    #       mkdir -p 3d_tiles
+
+    #       if [ ! -s ifc_files.txt ]; then
+    #         echo "No IFC files to process"
+    #         exit 0
+    #       fi
+
+    #       while IFS= read -r file; do
+    #         echo "Converting: $file"
+
+    #         out_dir="3d_tiles/$(basename "$file" .ifc)"
+
+    #         py3dtiles convert "$file" "$out_dir"
+    #       done < ifc_files.txt
+
+    #   - name: Upload to RustFS
+    #     env:
+    #       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #       AWS_ENDPOINT_URL: http://RUSTFS:9000
+    #     run: |
+    #       set -euo pipefail
+
+    #       . .venv/bin/activate
+
+    #       aws --endpoint-url "$AWS_ENDPOINT_URL" s3 sync \
+    #         3d_tiles \
+    #         s3://bimgis-3d-tiles/

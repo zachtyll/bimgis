@@ -1,0 +1,114 @@
+schema: '2.0'
+stages:
+  tiles:
+    cmd: py3dtiles convert data/ifc_files/DigitalHub/DigitalHub_FM-HZG_v2.ifc
+    deps:
+    - path: data/ifc_files/DigitalHub/DigitalHub_FM-HZG_v2.ifc
+      hash: md5
+      md5: d9e2dc149ffcf58dde1f44cb41d1be02
+      size: 20890415
+    - path: scripts/convert_ifc.py
+      hash: md5
+      md5: 272e61347a984419e690a268ca078f38
+      size: 558
+    outs:
+    - path: 3dtiles
+      hash: md5
+      md5: eb53551f413eeb287bc23d202a263afd.dir
+      size: 12716718
+      nfiles: 4
+  tiles@0:
+    cmd: py3dtiles convert data/ifc_files/DigitalHub/DigitalHub_FM-ARC_v2.ifc 
+      --out 3dtiles/DigitalHub_FM-ARC_v2 --overwrite
+    deps:
+    - path: data/ifc_files/DigitalHub/DigitalHub_FM-ARC_v2.ifc
+      hash: md5
+      md5: a9608dda70426aba9a392c89766c9cbb
+      size: 9022255
+    - path: scripts/convert_ifc.py
+      hash: md5
+      md5: 272e61347a984419e690a268ca078f38
+      size: 558
+    outs:
+    - path: 3dtiles/DigitalHub_FM-ARC_v2
+      hash: md5
+      md5: efadae2a911893ddcc89f3ecaeea5077.dir
+      size: 7147847
+      nfiles: 68
+  tiles@1:
+    cmd: py3dtiles convert data/ifc_files/DigitalHub/DigitalHub_FM-HZG_v2.ifc 
+      --out 3dtiles/DigitalHub_FM-HZG_v2 --overwrite
+    deps:
+    - path: data/ifc_files/DigitalHub/DigitalHub_FM-HZG_v2.ifc
+      hash: md5
+      md5: d9e2dc149ffcf58dde1f44cb41d1be02
+      size: 20890415
+    - path: scripts/convert_ifc.py
+      hash: md5
+      md5: 272e61347a984419e690a268ca078f38
+      size: 558
+    outs:
+    - path: 3dtiles/DigitalHub_FM-HZG_v2
+      hash: md5
+      md5: 7199acd3badf4443f67f4beef8d2a095.dir
+      size: 12706962
+      nfiles: 4
+  upload@0:
+    cmd: python scripts/upload_tiles.py 3dtiles/DigitalHub_FM-ARC_v2 
+      DigitalHub_FM-ARC_v2
+    deps:
+    - path: 3dtiles/DigitalHub_FM-ARC_v2
+      hash: md5
+      md5: efadae2a911893ddcc89f3ecaeea5077.dir
+      size: 7147847
+      nfiles: 68
+    - path: scripts/upload_tiles.py
+      hash: md5
+      md5: 56eb18d35cfb45a4871f1f345b086f0d
+      size: 546
+  upload@1:
+    cmd: python scripts/upload_tiles.py 3dtiles/DigitalHub_FM-HZG_v2 
+      DigitalHub_FM-HZG_v2
+    deps:
+    - path: 3dtiles/DigitalHub_FM-HZG_v2
+      hash: md5
+      md5: 7199acd3badf4443f67f4beef8d2a095.dir
+      size: 12706962
+      nfiles: 4
+    - path: scripts/upload_tiles.py
+      hash: md5
+      md5: 56eb18d35cfb45a4871f1f345b086f0d
+      size: 546
+  tiles@2:
+    cmd: py3dtiles convert 
+      data/ifc_files/other/ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000.ifc --out 
+      3dtiles/ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000 --overwrite
+    deps:
+    - path: data/ifc_files/other/ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000.ifc
+      hash: md5
+      md5: 8914ff891bd4cd0abd64efeb8d89a0e0
+      size: 71743126
+    - path: scripts/convert_ifc.py
+      hash: md5
+      md5: 272e61347a984419e690a268ca078f38
+      size: 558
+    outs:
+    - path: 3dtiles/ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000
+      hash: md5
+      md5: 66b186386d5849a0ad0dd188bddcc9dd.dir
+      size: 40432031
+      nfiles: 29
+  upload@2:
+    cmd: python scripts/upload_tiles.py 
+      3dtiles/ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000 
+      ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000
+    deps:
+    - path: 3dtiles/ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000
+      hash: md5
+      md5: 66b186386d5849a0ad0dd188bddcc9dd.dir
+      size: 40432031
+      nfiles: 29
+    - path: scripts/upload_tiles.py
+      hash: md5
+      md5: 56eb18d35cfb45a4871f1f345b086f0d
+      size: 546

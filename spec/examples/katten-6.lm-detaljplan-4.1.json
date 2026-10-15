@@ -1,0 +1,1886 @@
+{
+  "type": "FeatureCollection",
+  "feature:mediatyp": "application/vnd.lm.detaljplan.v4+json",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "detaljplan",
+        "objektidentitet": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektversion": 1,
+        "versionGiltigFran": "2026-01-20T00:00:00Z",
+        "kommun": "Luleå",
+        "namn": "Detaljplan för del av centrum, fastigheten Katten 6",
+        "syfte": "Möjliggöra ny bebyggelse i upp till 15 våningar på Katten 6, som idag är en parkering, och förtäta centrum med centrumverksamhet och bostäder.",
+        "status": "antagen",
+        "typ": "detaljplan",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Exempel framtaget från planbeskrivningen och plankartan; geometrierna är digitaliserade från plankartan.",
+        "plangeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829353.51,
+                      7292446.58
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829351.73,
+                      7292426.6
+                    ],
+                    [
+                      829360.75,
+                      7292403.77
+                    ],
+                    [
+                      829365.72,
+                      7292391.24
+                    ],
+                    [
+                      829375.01,
+                      7292392.24
+                    ],
+                    [
+                      829375.71,
+                      7292390.47
+                    ],
+                    [
+                      829366.41,
+                      7292389.46
+                    ],
+                    [
+                      829369.44,
+                      7292381.8
+                    ],
+                    [
+                      829377.84,
+                      7292385.1
+                    ],
+                    [
+                      829376.75,
+                      7292387.84
+                    ],
+                    [
+                      829404.5,
+                      7292398.46
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829412.54,
+                      7292450.09
+                    ],
+                    [
+                      829405.12,
+                      7292466.49
+                    ],
+                    [
+                      829353.51,
+                      7292446.58
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "beslutsinformation": [
+          {
+            "diarienummerKommun": "KLF2023/1459",
+            "beslutstyp": "antagande av ny detaljplan",
+            "genomforandetid": 120,
+            "foregaendePlansBeteckning": [
+              "A068"
+            ],
+            "planbestammelse": [
+              "a273508d-0a3e-55ff-aa55-d18722c18fb8",
+              "805101db-050d-50ed-96eb-c25e89109b59",
+              "10630f96-b517-57e7-b870-65205c0cf551",
+              "ceb37a0a-4ed1-52ff-a96b-4abb4795dc3b",
+              "3bf3436d-011a-594f-b8fc-3ce05e314614",
+              "83ae8efd-bbfa-5690-8cb1-d67a60d82b6f",
+              "826db1b5-e80b-5ea0-8e7b-58acdceb9fff",
+              "8c37c262-1ed6-515a-8775-6b2bfb9e1e14",
+              "c573077a-3873-5317-b1ab-6b2a678e97df",
+              "1d2dd4c6-c207-5b06-a7de-1b9f26a68a4d",
+              "1b15a7a3-fce8-502d-b8bf-f8a280e1a3ec",
+              "8f8076cd-c090-5857-b6db-cde387e56ae0",
+              "ca3dcf91-b7e9-5ad9-9748-ad83caacf9b8",
+              "430e4f8b-e985-5093-b82c-fe1bd532547f",
+              "1af59fee-1c14-5941-9d66-eb0b3d7c330f",
+              "8d670726-c8ba-5168-a895-f69b8db039b1",
+              "96db71d0-4359-5470-a960-5aa49ec00e5d",
+              "f1f76daa-6847-540e-8fdd-e120e8aac968",
+              "611a91d0-fa30-528f-b9c5-8191a85dda80",
+              "9b931288-9718-5338-8184-b7db196a411c"
+            ]
+          }
+        ],
+        "planeringsunderlag": [
+          {
+            "huvudomrade": "utredningar",
+            "underlagstyp": "bullerutredning",
+            "underlag": {
+              "namn": "Trafikbullerutredning, Tyréns",
+              "datum": {
+                "datum": "2023-10-05",
+                "handelse": "skapad"
+              },
+              "referens": [
+                {
+                  "namnrymd": "urn:bimgis:dokument",
+                  "identitet": "e89660c1-bd00-5765-9d88-4aa3a6579af7"
+                }
+              ]
+            }
+          },
+          {
+            "huvudomrade": "utredningar",
+            "underlagstyp": "dagsljus och skugga",
+            "underlag": {
+              "namn": "Dagsljusberäkning, Clarholm Energi- & Klimatanalys AB",
+              "datum": {
+                "datum": "2023-10-02",
+                "handelse": "skapad"
+              },
+              "referens": [
+                {
+                  "namnrymd": "urn:bimgis:dokument",
+                  "identitet": "7fda7902-7a46-549c-8e9c-6e7478aa70c3"
+                }
+              ]
+            }
+          },
+          {
+            "huvudomrade": "utredningar",
+            "underlagstyp": "dagvattenutredning",
+            "underlag": {
+              "namn": "PM Dagvattenhantering, Afry",
+              "datum": {
+                "datum": "2024-06-28",
+                "handelse": "skapad"
+              },
+              "referens": [
+                {
+                  "namnrymd": "urn:bimgis:dokument",
+                  "identitet": "4a95adc6-4ab6-5058-b860-36fdf96925da"
+                }
+              ]
+            }
+          },
+          {
+            "huvudomrade": "utredningar",
+            "underlagstyp": "geoteknisk utredning",
+            "underlag": {
+              "namn": "Geotekniskt utlåtande, Afry",
+              "datum": {
+                "datum": "2023-11-14",
+                "handelse": "skapad"
+              },
+              "referens": [
+                {
+                  "namnrymd": "urn:bimgis:dokument",
+                  "identitet": "a9e180c7-714f-5bb2-bdbb-930112d8351f"
+                }
+              ]
+            }
+          },
+          {
+            "huvudomrade": "utredningar",
+            "underlagstyp": "markmiljöutredning",
+            "underlag": {
+              "namn": "Miljöteknisk undersökning, Afry",
+              "datum": {
+                "datum": "2024-06-28",
+                "handelse": "skapad"
+              },
+              "referens": [
+                {
+                  "namnrymd": "urn:bimgis:dokument",
+                  "identitet": "5f0b874c-2857-56cf-b3fe-ddfb32be577e"
+                }
+              ]
+            }
+          },
+          {
+            "huvudomrade": "kommunala",
+            "underlagstyp": "planprogram",
+            "underlag": {
+              "namn": "Planprogram Norra hamn (KF 2011-10-17 § 227)",
+              "datum": {
+                "datum": "2011-10-17",
+                "handelse": "skapad"
+              },
+              "referens": [
+                {
+                  "namnrymd": "urn:bimgis:dokument",
+                  "identitet": "9a872b3a-ee24-5774-b371-34139862a94b"
+                }
+              ]
+            }
+          }
+        ],
+        "planbeskrivning": {
+          "planbeskrivning": {
+            "namn": "Planbeskrivning [Antagande] KLF 2023-1459 DP Katten 6",
+            "datum": {
+              "datum": "2026-01-20",
+              "handelse": "publicerad"
+            },
+            "referens": [
+              {
+                "namnrymd": "urn:bimgis:dokument",
+                "identitet": "80d59728-e9fe-5177-8d2a-d5001a9a1116"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "a273508d-0a3e-55ff-aa55-d18722c18fb8",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "användningsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "a273508d-0a3e-55ff-aa55-d18722c18fb8",
+        "planbestammelsekatalogreferens": "7f46c19a-343d-433e-9ff8-59679eed36d8",
+        "bestammelseformulering": "Gata",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: GATA. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829353.51,
+                      7292446.58
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829412.54,
+                      7292450.09
+                    ],
+                    [
+                      829405.12,
+                      7292466.49
+                    ],
+                    [
+                      829353.51,
+                      7292446.58
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          },
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829366.41,
+                      7292389.46
+                    ],
+                    [
+                      829369.44,
+                      7292381.8
+                    ],
+                    [
+                      829377.84,
+                      7292385.1
+                    ],
+                    [
+                      829375.71,
+                      7292390.47
+                    ],
+                    [
+                      829366.41,
+                      7292389.46
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          },
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829362.4,
+                      7292399.61
+                    ],
+                    [
+                      829360.75,
+                      7292403.77
+                    ],
+                    [
+                      829351.73,
+                      7292426.6
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829370.05,
+                      7292404.77
+                    ],
+                    [
+                      829361.63,
+                      7292401.56
+                    ],
+                    [
+                      829362.4,
+                      7292399.61
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          },
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829373.14,
+                      7292392.04
+                    ],
+                    [
+                      829374.83,
+                      7292392.68
+                    ],
+                    [
+                      829374.4,
+                      7292393.77
+                    ],
+                    [
+                      829375.01,
+                      7292392.24
+                    ],
+                    [
+                      829373.14,
+                      7292392.04
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Möjliggöra angöring till planområdet och en utveckling av Skeppsbrogatan, inklusive GC-väg, körbana och belysning."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "805101db-050d-50ed-96eb-c25e89109b59",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "användningsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "805101db-050d-50ed-96eb-c25e89109b59",
+        "planbestammelsekatalogreferens": "f9e056a6-cda8-4b92-a15d-dc70d61dfa36",
+        "bestammelseformulering": "Bostäder",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: B1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829376.75,
+                      7292387.84
+                    ],
+                    [
+                      829404.5,
+                      7292398.46
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Möjliggöra bostäder och stärka centrum. Bostäder tillåts från våning sju för att inte förlägga bostäder där buller eller dagsljus inte når riktvärdena."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "10630f96-b517-57e7-b870-65205c0cf551",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "användningsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "10630f96-b517-57e7-b870-65205c0cf551",
+        "planbestammelsekatalogreferens": "5df5c910-50b0-4b57-80a4-d139115c3b73",
+        "bestammelseformulering": "Centrum",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: C. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829376.75,
+                      7292387.84
+                    ],
+                    [
+                      829404.5,
+                      7292398.46
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Möjliggöra centrumfunktioner inom planområdet och därmed stärka och förtäta centrum."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ceb37a0a-4ed1-52ff-a96b-4abb4795dc3b",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "användningsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "ceb37a0a-4ed1-52ff-a96b-4abb4795dc3b",
+        "planbestammelsekatalogreferens": "cea1a8c2-7fc9-4fb2-8b6f-944716a4aa55",
+        "bestammelseformulering": "Parkering",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: P1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829361.63,
+                      7292401.56
+                    ],
+                    [
+                      829365.72,
+                      7292391.24
+                    ],
+                    [
+                      829373.14,
+                      7292392.04
+                    ],
+                    [
+                      829374.83,
+                      7292392.68
+                    ],
+                    [
+                      829370.05,
+                      7292404.77
+                    ],
+                    [
+                      829361.63,
+                      7292401.56
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Möjliggöra en kulvert mellan parkeringsgaraget inom planområdet och garaget på Hunden 16 utan att påverka befintliga ledningar."
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3bf3436d-011a-594f-b8fc-3ce05e314614",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "3bf3436d-011a-594f-b8fc-3ce05e314614",
+        "planbestammelsekatalogreferens": "fd3caeba-77c4-4790-bb82-23cf1a5bd602",
+        "bestammelseformulering": "Endast byggnadsverk under mark.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: ö1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829376.75,
+                      7292387.84
+                    ],
+                    [
+                      829404.5,
+                      7292398.46
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Hålla Kattgränd fri från bebyggelse ovan mark och säkerställa kulvert/länk till garaget på Hunden 16."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "Endast byggnadsverk under mark",
+            "beskrivning": "Endast byggnadsverk under mark"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "83ae8efd-bbfa-5690-8cb1-d67a60d82b6f",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "83ae8efd-bbfa-5690-8cb1-d67a60d82b6f",
+        "planbestammelsekatalogreferens": "ee5f8de3-89b0-479a-a5cb-7439d40623e8",
+        "bestammelseformulering": "Högsta nockhöjd är 22 meter.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: h1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829362.36,
+                      7292430.71
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829376.37,
+                      7292395.3
+                    ],
+                    [
+                      829362.36,
+                      7292430.71
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Upp till fem våningar; stadsmässig proportion i Skomakargatans gaturum och en mänsklig skala i gatunivå."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "decimaltal",
+            "variabelvarde": "22",
+            "beskrivning": "höjd",
+            "vardetyp": "max",
+            "enhet": "meter"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "826db1b5-e80b-5ea0-8e7b-58acdceb9fff",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "826db1b5-e80b-5ea0-8e7b-58acdceb9fff",
+        "planbestammelsekatalogreferens": "ee5f8de3-89b0-479a-a5cb-7439d40623e8",
+        "bestammelseformulering": "Högsta nockhöjd är 26 meter.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: h2. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829388.99,
+                      7292400.13
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829374.97,
+                      7292435.58
+                    ],
+                    [
+                      829388.99,
+                      7292400.13
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Upp till sex våningar; relatera till omgivningens höjdsättning mot Skeppsbrogatan."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "decimaltal",
+            "variabelvarde": "26",
+            "beskrivning": "höjd",
+            "vardetyp": "max",
+            "enhet": "meter"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8c37c262-1ed6-515a-8775-6b2bfb9e1e14",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "8c37c262-1ed6-515a-8775-6b2bfb9e1e14",
+        "planbestammelsekatalogreferens": "05c9ec9d-65e2-4a64-a711-3fde76f1c4f8",
+        "bestammelseformulering": "Högsta totalhöjd är 45 meter.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: h3. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829362.37,
+                      7292430.72
+                    ],
+                    [
+                      829376.37,
+                      7292395.3
+                    ],
+                    [
+                      829388.99,
+                      7292400.13
+                    ],
+                    [
+                      829374.97,
+                      7292435.58
+                    ],
+                    [
+                      829362.37,
+                      7292430.72
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Upp till 15 våningar enligt planprogrammet. Totalhöjden säkerställer att riksintresset för totalförsvaret inte inskränks (högsta punkt 45 m)."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "decimaltal",
+            "variabelvarde": "45",
+            "beskrivning": "höjd",
+            "vardetyp": "max",
+            "enhet": "meter"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "c573077a-3873-5317-b1ab-6b2a678e97df",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "c573077a-3873-5317-b1ab-6b2a678e97df",
+        "planbestammelsekatalogreferens": "bcf7afec-7175-4396-aafd-de783c5b0213",
+        "bestammelseformulering": "Markreservat för gemensamhetsanläggning.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: g1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829376.75,
+                      7292387.84
+                    ],
+                    [
+                      829404.5,
+                      7292398.46
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Ge utrymme för gemensamhetsanläggning längs Kattgränd för transporter (t.ex. Katten 6, 12, 13 och 14)."
+        },
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1d2dd4c6-c207-5b06-a7de-1b9f26a68a4d",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "1d2dd4c6-c207-5b06-a7de-1b9f26a68a4d",
+        "planbestammelsekatalogreferens": "e1d247ef-9b90-4558-b70d-04d472580af6",
+        "bestammelseformulering": "Byggnaden ska placeras i gräns mot Skeppsbrogatan och Skomakargatan. Längs Skomakargatan medges ett indrag på maximalt 2 meter från fastighetsgräns för byggnadens första två våningar.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: p1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Följa innerstadens kvartersstruktur med hänsyn till Skomakargatans smala gaturum."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "Byggnaden ska placeras i gräns mot Skeppsbrogatan och Skomakargatan. Längs Skomakargatan medges ett indrag på maximalt 2 meter från fastighetsgräns för byggnadens första två våningar.",
+            "beskrivning": "placering av byggnadsverk"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1b15a7a3-fce8-502d-b8bf-f8a280e1a3ec",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "1b15a7a3-fce8-502d-b8bf-f8a280e1a3ec",
+        "planbestammelsekatalogreferens": "e26a5c6c-3697-45b3-9025-4459db3dede1",
+        "bestammelseformulering": "Byggnadens fasad ska utföras i tegel, puts och/eller trä.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Taktilt uttryck likt framträdande byggnader i närområdet; överensstämma med centrumhalvöns bebyggelse kring Norra hamn."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "Byggnadens fasad ska utföras i tegel, puts och/eller trä.",
+            "beskrivning": "byggnadsverks form"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8f8076cd-c090-5857-b6db-cde387e56ae0",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "8f8076cd-c090-5857-b6db-cde387e56ae0",
+        "planbestammelsekatalogreferens": "e26a5c6c-3697-45b3-9025-4459db3dede1",
+        "bestammelseformulering": "Entré ska finnas mot Skomakargatan och Skeppsbrogatan. Entréer ska placeras med minst en meters indrag från gata.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f4. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Främja aktivt gatuliv och trygghet; motverka känslan av \"bakgata\" längs Skomakargatan."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "Entré ska finnas mot Skomakargatan och Skeppsbrogatan. Entréer ska placeras med minst en meters indrag från gata.",
+            "beskrivning": "byggnadsverks form"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "ca3dcf91-b7e9-5ad9-9748-ad83caacf9b8",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "ca3dcf91-b7e9-5ad9-9748-ad83caacf9b8",
+        "planbestammelsekatalogreferens": "455f6fee-d5fb-486a-8a0b-531f0abb9f7e",
+        "bestammelseformulering": "Balkong får kraga ut maximalt 1,8 meter över egenskapsområde h1 och egenskapsområde ö1 och g1 med en lägsta fri höjd om 26 meter från marknivå.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f5. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829362.36,
+                      7292430.71
+                    ],
+                    [
+                      829376.37,
+                      7292395.3
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Tillåta balkonger mot söder utan en instängd känsla längs Kattgränd."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "får kraga ut maximalt 1,8 meter över egenskapsområde h1 och egenskapsområde ö1 och g1 med en lägsta fri höjd om 26 meter från marknivå.",
+            "beskrivning": "utformning"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "430e4f8b-e985-5093-b82c-fe1bd532547f",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "430e4f8b-e985-5093-b82c-fe1bd532547f",
+        "planbestammelsekatalogreferens": "b4a22930-e0e4-4d5d-b826-c13c44893937",
+        "bestammelseformulering": "Byggnadens markplan får endast användas för centrumverksamhet.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: s1. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Bostäder först från våning sju; markplanet ger centrumverksamhet och liv mot gatorna."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "markplan",
+            "beskrivning": "delar"
+          },
+          {
+            "datatyp": "text",
+            "variabelvarde": "användas för centrumverksamhet.",
+            "beskrivning": "användning"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1af59fee-1c14-5941-9d66-eb0b3d7c330f",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "1af59fee-1c14-5941-9d66-eb0b3d7c330f",
+        "planbestammelsekatalogreferens": "e26a5c6c-3697-45b3-9025-4459db3dede1",
+        "bestammelseformulering": "Fasader ska utföras i varm, jordig kulör med matt yta.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f2. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Anpassa till färgsättningen i centrumhalvöns bebyggelse kring Norra hamn."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "Fasader ska utföras i varm, jordig kulör med matt yta.",
+            "beskrivning": "byggnadsverks form"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8d670726-c8ba-5168-a895-f69b8db039b1",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "8d670726-c8ba-5168-a895-f69b8db039b1",
+        "planbestammelsekatalogreferens": "e26a5c6c-3697-45b3-9025-4459db3dede1",
+        "bestammelseformulering": "Sockelvåningens fasader mot Skeppsbrogatan och Skomakargatan ska i huvudsak bestå av glas. Byggnadens sockelvåning ska markeras i sten eller tegel.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f3. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Öppna sockelvåningar mot gatorna och en tydlig bas i beständiga material."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "Sockelvåningens fasader mot Skeppsbrogatan och Skomakargatan ska i huvudsak bestå av glas. Byggnadens sockelvåning ska markeras i sten eller tegel.",
+            "beskrivning": "byggnadsverks form"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "96db71d0-4359-5470-a960-5aa49ec00e5d",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "96db71d0-4359-5470-a960-5aa49ec00e5d",
+        "planbestammelsekatalogreferens": "455f6fee-d5fb-486a-8a0b-531f0abb9f7e",
+        "bestammelseformulering": "Balkong får inte kraga ut över fastighetsgräns eller egenskapsområde h2.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f6. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Inga balkonger över allmän plats eller mot grannfastigheten i öster."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "får inte kraga ut över fastighetsgräns eller egenskapsområde h2.",
+            "beskrivning": "utformning"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f1f76daa-6847-540e-8fdd-e120e8aac968",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "f1f76daa-6847-540e-8fdd-e120e8aac968",
+        "planbestammelsekatalogreferens": "e26a5c6c-3697-45b3-9025-4459db3dede1",
+        "bestammelseformulering": "Byggnad får kraga ut med maximalt 2,4 meter över egenskapsområde ö1 och h1 med lägsta fri höjd om sex meter från marknivå och upp till 26 meters nockhöjd.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f7. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Medge burspråk och utkragade våningar över gränderna med fri höjd för passage."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "Byggnad får kraga ut med maximalt 2,4 meter över egenskapsområde ö1 och h1 med lägsta fri höjd om sex meter från marknivå och upp till 26 meters nockhöjd.",
+            "beskrivning": "byggnadsverks form"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "611a91d0-fa30-528f-b9c5-8191a85dda80",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "611a91d0-fa30-528f-b9c5-8191a85dda80",
+        "planbestammelsekatalogreferens": "455f6fee-d5fb-486a-8a0b-531f0abb9f7e",
+        "bestammelseformulering": "Balkong får glasas in, endast med ramfri inglasning som väderskydd för uterum.",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: f8. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "yta",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      829401.89,
+                      7292405.06
+                    ],
+                    [
+                      829387.87,
+                      7292440.56
+                    ],
+                    [
+                      829360.12,
+                      7292429.85
+                    ],
+                    [
+                      829374.13,
+                      7292394.45
+                    ],
+                    [
+                      829401.89,
+                      7292405.06
+                    ]
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Väderskyddade uterum utan att förändra fasadens uttryck."
+        },
+        "bestammelsevarde": [
+          {
+            "datatyp": "text",
+            "variabelvarde": "får glasas in, endast med ramfri inglasning som väderskydd för uterum.",
+            "beskrivning": "utformning"
+          }
+        ],
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9b931288-9718-5338-8184-b7db196a411c",
+      "geometry": null,
+      "properties": {
+        "feature:typ": "egenskapsbestämmelse",
+        "detaljplan": "b5a779b0-ef8c-5291-b1f0-f714521dfe91",
+        "objektidentitet": "9b931288-9718-5338-8184-b7db196a411c",
+        "planbestammelsekatalogreferens": "623a21a0-5d27-4b55-889f-b0841409894d",
+        "bestammelseformulering": "Utfartsförbud",
+        "kvalitetsbeskrivning": {
+          "digitaliseringsniva": "komplett",
+          "beskrivningNiva": "Bestämmelsernas geometrier är digitaliserade från plankartan och georefererade; lägesosäkerhet omkring en meter.",
+          "korrigeradeGranser": false,
+          "kontrolleratPlaneringsunderlag": false
+        },
+        "anvandbarhet": "medel",
+        "beskrivningAnvandbarhet": "Plankartans beteckning: utfartsförbud. Geometrin är digitaliserad från plankartan.",
+        "bestammelsegeometri": [
+          {
+            "geometri": {
+              "typ": "linje",
+              "koordinatsystemPlan": "EPSG:3006",
+              "dimension": 2,
+              "position": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    829385.79,
+                    7292439.76
+                  ],
+                  [
+                    829360.12,
+                    7292429.85
+                  ],
+                  [
+                    829373.33,
+                    7292396.49
+                  ]
+                ]
+              }
+            },
+            "geometrimetadata": {
+              "tidpunktForLagesbestamning": "2026-01-20T00:00:00Z",
+              "lagesbestamningsmetodIPlan": {
+                "typ": "okänd",
+                "variant": "okänd"
+              }
+            }
+          }
+        ],
+        "planbestammelsebeskrivning": {
+          "motiv": "Inga utfarter mot Skeppsbrogatan och Skomakargatan; trafik till kvarteret sker via Kattgränd."
+        },
+        "reglerarAnvandningsbestammelse": [
+          "10630f96-b517-57e7-b870-65205c0cf551",
+          "805101db-050d-50ed-96eb-c25e89109b59"
+        ]
+      }
+    }
+  ]
+}

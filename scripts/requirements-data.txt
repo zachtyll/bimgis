@@ -1,0 +1,6 @@
+duckdb>=1.5
+pyproj>=3.7
+pyyaml>=6
+jsonschema>=4.23
+pymupdf>=1.26
+shapely>=2.0

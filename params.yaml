@@ -1,0 +1,8 @@
+ifc_files:
+  - key: DigitalHub_FM-ARC_v2
+    path: data/ifc_files/DigitalHub/DigitalHub_FM-ARC_v2.ifc
+  - key: DigitalHub_FM-HZG_v2
+    path: data/ifc_files/DigitalHub/DigitalHub_FM-HZG_v2.ifc
+  - key: ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000
+    path: data/ifc_files/other/ISSUE_098_R8_F1_MAB_AR_M3_XX_XXX_MO_7000.ifc
+    

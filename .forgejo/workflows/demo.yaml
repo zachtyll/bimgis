@@ -1,0 +1,13 @@
+on:
+  push:
+    paths:
+      - '**/*.dvc'
+      - 'dvc.yaml'
+      - 'dvc.lock'
+jobs:
+  test:
+    runs-on: docker
+    container:
+      options: "--network ci-net"
+    steps:
+      - run: echo Path filter matched

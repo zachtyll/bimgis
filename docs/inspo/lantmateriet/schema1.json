@@ -1,0 +1,257 @@
+{
+    "$id": "https://namespace.lantmateriet.se/distribution/geodatakatalog/sokning/v1/detaljplan/v2/detaljplan-ref-2.2.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Detaljplan Referens 2.2",
+    "oneOf": [
+        {
+            "$ref": "#/$defs/detaljplan"
+        },
+        {
+            "$ref": "#/$defs/planbestammelse"
+        }
+    ],
+    "$defs": {
+        "detaljplan": {
+            "type": "object",
+            "properties": {
+                "feature": {
+                    "$ref": "#/$defs/attributFeatureDetaljplan"
+                },
+                "detaljplan": {
+                    "$ref": "#/$defs/attributDetaljplan"
+                }
+            },
+            "required": [
+                "feature",
+                "detaljplan"
+            ]
+        },
+        "attributFeatureDetaljplan": {
+            "type": "object",
+            "properties": {
+                "typ": {
+                    "type": "string",
+                    "enum": [
+                        "detaljplan"
+                    ]
+                },
+                "etikett": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "typ",
+                "etikett"
+            ],
+            "additionalProperties": false
+        },
+        "attributDetaljplan": {
+            "type": "object",
+            "properties": {
+                "objektidentitet": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "beteckning": {
+                    "type": "string"
+                },
+                "namn": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/$defs/planstatus"
+                },
+                "datumStatusforandring": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "typ": {
+                    "$ref": "#/$defs/plantyp"
+                },
+                "datumPaborjat": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "datumLagakraft": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "kvalitet": {
+                    "$ref": "#/$defs/kvalitet"
+                },
+                "anvandbarhet": {
+                    "$ref": "#/$defs/tillforlitlighet"
+                }
+            },
+            "required": [
+                "objektidentitet",
+                "namn",
+                "status",
+                "typ"
+            ],
+            "additionalProperties": false
+        },
+        "kvalitet": {
+            "type": "object",
+            "properties": {
+                "korrigeradeGranser": {
+                    "type": "boolean"
+                },
+                "kontrolleratPlaneringsunderlag": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "korrigeradeGranser",
+                "kontrolleratPlaneringsunderlag"
+            ],
+            "additionalProperties": false
+        },
+        "planbestammelse": {
+            "type": "object",
+            "properties": {
+                "feature": {
+                    "$ref": "#/$defs/attributFeaturePlanbestammelse"
+                },
+                "detaljplan": {
+                    "$ref": "#/$defs/attributDetaljplan"
+                },
+                "planbestammelse": {
+                    "$ref": "#/$defs/attributPlanbestammelse"
+                }
+            },
+            "required": [
+                "feature",
+                "detaljplan",
+                "bestammelse"
+            ]
+        },
+        "attributFeaturePlanbestammelse": {
+            "type": "object",
+            "properties": {
+                "typ": {
+                    "type": "string",
+                    "enum": [
+                        "användningsbestämmelse",
+                        "administrativ bestämmelse",
+                        "egenskapsbestämmelse"
+                    ]
+                },
+                "etikett": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "typ",
+                "etikett"
+            ],
+            "additionalProperties": false
+        },
+        "attributPlanbestammelse": {
+            "type": "object",
+            "properties": {
+                "planbestammelsekatalogreferens": {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                "bestammelseformulering": {
+                    "type": "string"
+                },
+                "bestammelsevarde": {
+                    "$ref": "#/$defs/bestammelsevarde"
+                },
+                "anvandningsform": {
+                    "type": "string"
+                },
+                "kategori": {
+                    "type": "string"
+                },
+                "underkategori": {
+                    "type": "string"
+                },
+                "kvalitet": {
+                    "$ref": "#/$defs/kvalitet"
+                },
+                "anvandbarhet": {
+                    "$ref": "#/$defs/tillforlitlighet"
+                }
+            },
+            "required": [
+                "planbestammelsekatalogreferens",
+                "bestammelseformulering",
+                "anvandningsform"
+            ],
+            "additionalProperties": false
+        },
+        "bestammelsevarde": {
+            "type": "object",
+            "properties": {
+                "variabelvarde": {
+                    "type": "number"
+                },
+                "vardetyp": {
+                    "$ref": "#/$defs/vardetyp"
+                },
+                "enhet": {
+                    "$ref": "#/$defs/enhet"
+                }
+            },
+            "required": [
+                "variabelvarde"
+            ],
+            "additionalProperties": false
+        },
+        "planstatus": {
+            "type": "string",
+            "enum": [
+                "påbörjad",
+                "samråd",
+                "granskning",
+                "antagen",
+                "överklagad",
+                "tillsyn",
+                "laga kraft",
+                "upphävd",
+                "avslutad"
+            ]
+        },
+        "plantyp": {
+            "type": "string",
+            "enum": [
+                "avstyckningsplan",
+                "byggnadsplan",
+                "detaljplan",
+                "stadsplan"
+            ]
+        },
+        "tillforlitlighet": {
+            "type": "string",
+            "enum": [
+                "god",
+                "medel",
+                "låg"
+            ]
+        },
+        "vardetyp": {
+            "type": "string",
+            "enum": [
+                "min",
+                "max",
+                "exakt"
+            ]
+        },
+        "enhet": {
+            "type": "string",
+            "enum": [
+                "meter",
+                "kvadratmeter",
+                "kubikmeter",
+                "procent",
+                "grader",
+                "antal",
+                "år",
+                "dB(A)"
+            ]
+        }
+    }
+}
